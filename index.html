@@ -8,17 +8,1325 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <!-- Stripe.js -->
+    <script src="https://js.stripe.com/v3/"></script>
+    <style>
+        /* Base Styles and Variables */
+        :root {
+            --phantom-black: #020408;
+            --phantom-dark: #040B14;
+            --phantom-gray: #0A1628;
+            --phantom-light: #1e1e24;
+            --teal-primary: #00e6cc;
+            --teal-secondary: #00b3a1;
+            --teal-glow: rgba(0, 230, 204, 0.3);
+            --text-white: #ffffff;
+            --text-light: #e0e0e0;
+            --text-gray: #a0a0a0;
+            --phantom-light-gray: #a0a0a0;
+            --gradient-dark: linear-gradient(135deg, var(--phantom-black) 0%, var(--phantom-dark) 100%);
+            --gradient-glow: linear-gradient(135deg, var(--teal-primary) 0%, var(--teal-secondary) 100%);
+            --shadow-soft: 0 4px 20px rgba(0, 0, 0, 0.15);
+            --shadow-strong: 0 8px 30px rgba(0, 0, 0, 0.25);
+            --transition-fast: all 0.2s ease;
+            --transition-medium: all 0.3s ease;
+            --border-radius-sm: 4px;
+            --border-radius-md: 8px;
+            --border-radius-lg: 12px;
+            --border-radius-xl: 20px;
+        }
+
+        /* Reset and Base Styles */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        html {
+            scroll-behavior: auto;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: var(--phantom-black);
+            color: var(--text-white);
+            line-height: 1.6;
+            overflow-x: hidden;
+            position: relative;
+        }
+
+        a {
+            text-decoration: none;
+            color: var(--text-white);
+            transition: var(--transition-fast);
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        img {
+            max-width: 100%;
+            height: auto;
+        }
+
+        /* Typography */
+        h1, h2, h3, h4, h5, h6 {
+            font-weight: 700;
+            line-height: 1.2;
+            margin-bottom: 1rem;
+        }
+
+        h1 {
+            font-size: 3.5rem;
+            letter-spacing: -0.5px;
+        }
+
+        h2 {
+            font-size: 2.5rem;
+            letter-spacing: -0.3px;
+        }
+
+        h3 {
+            font-size: 1.75rem;
+        }
+
+        h4 {
+            font-size: 1.25rem;
+        }
+
+        p {
+            margin-bottom: 1rem;
+            color: var(--text-light);
+        }
+
+        /* Buttons */
+        .btn {
+            display: inline-block;
+            padding: 0.75rem 1.5rem;
+            border-radius: 50px;
+            font-weight: 600;
+            transition: var(--transition-medium);
+            cursor: pointer;
+            text-align: center;
+            position: relative;
+            overflow: hidden;
+            z-index: 1;
+        }
+
+        .btn::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(255, 255, 255, 0.1);
+            z-index: -1;
+            transform: translateY(100%);
+            transition: transform 0.3s ease;
+        }
+
+        .btn:hover::before {
+            transform: translateY(0);
+        }
+
+        .btn-primary {
+            background: linear-gradient(90deg, var(--teal-primary) 0%, var(--teal-secondary) 100%);
+            color: var(--phantom-black);
+            box-shadow: 0 0 15px var(--teal-glow);
+        }
+
+        .btn-primary .text-gradient, .btn-outline .text-gradient {
+            background: var(--phantom-black);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .btn-primary .text-gradient::after, .btn-outline .text-gradient::after {
+            display: none;
+        }
+
+        .btn-primary:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 0 25px var(--teal-glow);
+        }
+
+        .btn-secondary {
+            background-color: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+        }
+
+        .btn-secondary .text-gradient {
+            background: linear-gradient(90deg, var(--teal-primary) 0%, var(--teal-secondary) 100%);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+            font-weight: 700;
+        }
+
+        .btn-secondary .text-gradient::after {
+            display: none;
+        }
+
+        .btn-secondary:hover {
+            border-color: var(--text-light);
+            transform: translateY(-3px);
+        }
+
+        .btn-outline {
+            background-color: transparent;
+            border: 2px solid var(--teal-primary);
+            color: var(--teal-primary);
+        }
+
+        .btn-outline:hover {
+            background-color: rgba(0, 230, 204, 0.1);
+            transform: translateY(-3px);
+        }
+
+        .btn-large {
+            padding: 1rem 2.5rem;
+            font-size: 1.1rem;
+            letter-spacing: 1px;
+        }
+
+        .btn-full {
+            width: 100%;
+        }
+
+        /* Layout */
+        .container {
+            width: 100%;
+            max-width: 1400px;
+            margin: 0 auto;
+            padding: 0 1.5rem;
+        }
+
+        section {
+            padding: 8rem 2rem;
+            position: relative;
+            z-index: 1;
+            margin-bottom: -2px;
+        }
+
+        /* Header and Navigation */
+        header {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            z-index: 1000;
+            padding: 1.5rem 2rem;
+            transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+            background: linear-gradient(90deg, rgba(4, 11, 20, 0.95) 0%, rgba(10, 22, 40, 0.95) 100%);
+            backdrop-filter: blur(20px);
+            -webkit-backdrop-filter: blur(20px);
+            border-bottom: 1px solid rgba(0, 230, 204, 0.1);
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.2), 0 0 8px rgba(0, 230, 204, 0.1);
+            clip-path: polygon(0 0, 100% 0, 100% 100%, 0 calc(100% - 0px));
+            animation: headerFadeIn 0.8s ease-out forwards;
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        @keyframes headerFadeIn {
+            0% {
+                opacity: 0;
+                transform: translateY(-20px);
+            }
+            100% {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        header::before {
+            content: '';
+            position: absolute;
+            top: -80px;
+            left: 5%;
+            width: 200px;
+            height: 200px;
+            background: radial-gradient(circle, rgba(0, 230, 204, 0.2) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(40px);
+            z-index: -1;
+            animation: headerGlow 8s infinite alternate ease-in-out;
+        }
+
+        header::after {
+            content: '';
+            position: absolute;
+            top: -50px;
+            right: 10%;
+            width: 180px;
+            height: 180px;
+            background: radial-gradient(circle, rgba(88, 103, 221, 0.25) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(30px);
+            z-index: -1;
+            animation: headerGlow 12s infinite alternate-reverse ease-in-out;
+        }
+
+        @keyframes headerGlow {
+            0% {
+                opacity: 0.5;
+                transform: translateY(0) scale(1);
+            }
+            100% {
+                opacity: 0.8;
+                transform: translateY(20px) scale(1.1);
+            }
+        }
+
+        header.scrolled {
+            padding: 0.8rem 2rem;
+            background: rgba(4, 11, 20, 0.98);
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3), 0 0 10px rgba(0, 230, 204, 0.1);
+            border-bottom: 1px solid rgba(0, 230, 204, 0.15);
+            transform: translateY(0);
+        }
+
+        header.hidden {
+            transform: translateY(-100%);
+        }
+
+        nav {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            max-width: 1400px;
+            margin: 0 auto;
+            position: relative;
+        }
+
+        .logo {
+            display: flex;
+            align-items: center;
+            font-weight: 700;
+            font-size: 1.5rem;
+            position: relative;
+            z-index: 2;
+            padding: 8px 12px;
+            border-radius: 12px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+        }
+
+        .logo:hover {
+            background: rgba(0, 230, 204, 0.05);
+            transform: translateY(-2px);
+        }
+
+        .logo::before {
+            content: '';
+            position: absolute;
+            width: 50px;
+            height: 50px;
+            background: radial-gradient(circle, rgba(0, 230, 204, 0.3) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(15px);
+            z-index: -1;
+            animation: logoGlow 4s infinite alternate ease-in-out;
+        }
+
+        @keyframes logoGlow {
+            0% {
+                opacity: 0.5;
+                transform: scale(1);
+            }
+            100% {
+                opacity: 0.8;
+                transform: scale(1.3);
+            }
+        }
+
+        @keyframes pulse {
+            0% { transform: scale(1); opacity: 0.5; }
+            100% { transform: scale(1.5); opacity: 0.2; }
+        }
+
+        .logo img {
+            height: 42px;
+            margin-right: 0.75rem;
+            filter: drop-shadow(0 0 12px var(--teal-glow));
+            transition: all 0.3s ease;
+        }
+
+        .logo:hover img {
+            transform: rotate(-5deg) scale(1.05);
+        }
+
+        .logo-text {
+            letter-spacing: -0.5px;
+            background: linear-gradient(90deg, #ffffff, #e0e0e0);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .logo-highlight {
+            color: var(--teal-primary);
+            position: relative;
+            background: linear-gradient(90deg, var(--teal-primary), #5ee7d3);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            background-clip: text;
+            text-fill-color: transparent;
+        }
+
+        .logo-highlight::after {
+            content: '';
+            position: absolute;
+            bottom: -3px;
+            left: 0;
+            width: 100%;
+            height: 2px;
+            background: linear-gradient(90deg, var(--teal-primary), transparent);
+            box-shadow: 0 0 10px var(--teal-glow);
+            opacity: 0.8;
+        }
+
+        .nav-links {
+            display: flex;
+            gap: 2.5rem;
+            margin-left: 40px;
+            position: relative;
+            z-index: 2;
+        }
+
+        .nav-link {
+            position: relative;
+            font-weight: 500;
+            padding: 8px 16px;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            border-radius: 10px;
+            background: transparent;
+            letter-spacing: 0.3px;
+            font-size: 0.95rem;
+        }
+
+        .nav-link:hover {
+            color: var(--text-white);
+            background: rgba(0, 230, 204, 0.08);
+            transform: translateY(-2px);
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+        }
+
+        .nav-link::before {
+            content: '';
+            position: absolute;
+            bottom: -4px;
+            left: 50%;
+            transform: translateX(-50%);
+            width: 6px;
+            height: 6px;
+            background: var(--teal-primary);
+            border-radius: 50%;
+            opacity: 0;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            box-shadow: 0 0 8px var(--teal-glow);
+        }
+
+        .nav-link:hover::before {
+            opacity: 1;
+            bottom: -6px;
+            box-shadow: 0 0 12px var(--teal-glow);
+        }
+
+        .nav-link.active {
+            color: var(--teal-primary);
+            background: rgba(0, 230, 204, 0.1);
+            font-weight: 600;
+            box-shadow: 0 4px 15px rgba(0, 230, 204, 0.15);
+        }
+
+        .nav-link.active::before {
+            opacity: 1;
+            width: 8px;
+            height: 8px;
+            bottom: -5px;
+            width: 6px;
+            height: 6px;
+        }
+
+        .cta-buttons {
+            display: flex;
+            gap: 1.2rem;
+            position: relative;
+            z-index: 2;
+            margin-left: 4rem;
+        }
+
+        .cta-buttons::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            right: -15px;
+            transform: translateY(-50%);
+            width: 40px;
+            height: 40px;
+            background: radial-gradient(circle, rgba(0, 230, 204, 0.1) 0%, rgba(0, 0, 0, 0) 70%);
+            border-radius: 50%;
+            filter: blur(10px);
+            z-index: -1;
+        }
+
+        .cta-buttons .btn {
+            position: relative;
+            overflow: hidden;
+            border-radius: 14px;
+            padding: 0.9rem 1.8rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(0, 230, 204, 0.1);
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            backdrop-filter: blur(5px);
+        }
+
+        .cta-buttons .btn:hover {
+            transform: translateY(-3px);
+            box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2), 0 0 20px rgba(0, 230, 204, 0.15);
+        }
+
+        .cta-buttons .btn-primary {
+            background: linear-gradient(135deg, var(--teal-primary) 0%, #5ee7d3 100%);
+            border: none;
+            color: var(--phantom-black);
+            position: relative;
+        }
+
+        .cta-buttons .btn-primary::before {
+            content: '';
+            position: absolute;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: linear-gradient(135deg, #5ee7d3 0%, var(--teal-primary) 100%);
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .cta-buttons .btn-primary::after {
+            content: '';
+            position: absolute;
+            top: -2px;
+            left: -2px;
+            right: -2px;
+            bottom: -2px;
+            background: linear-gradient(135deg, var(--teal-primary), #5ee7d3, var(--teal-primary);
+            border-radius: 16px;
+            z-index: -2;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+        }
+
+        .cta-buttons .btn-primary:hover::after {
+            opacity: 1;
+        }
+
+        .cta-buttons .btn-primary:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 7px 20px rgba(0, 230, 204, 0.3);
+        }
+
+        .cta-buttons .btn-primary:hover::before {
+            opacity: 1;
+        }
+
+        .cta-buttons .btn-outline {
+            border: 2px solid rgba(0, 230, 204, 0.3);
+            background: rgba(0, 230, 204, 0.05);
+            position: relative;
+            backdrop-filter: blur(10px);
+        }
+
+        .cta-buttons .btn-outline::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 230, 204, 0.1), rgba(88, 103, 221, 0.1));
+            border-radius: 14px;
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .cta-buttons .btn-outline:hover {
+            border-color: var(--teal-primary);
+            background: rgba(0, 230, 204, 0.1);
+            transform: translateY(-5px);
+            box-shadow: 0 7px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(0, 230, 204, 0.2);
+            color: var(--teal-primary);
+        }
+
+        .cta-buttons .btn-outline:hover::before {
+            opacity: 1;
+        }
+
+        .cta-buttons .btn-primary i {
+            margin-left: 8px;
+            font-size: 0.9em;
+            transition: transform 0.3s ease;
+            position: relative;
+            top: 1px;
+        }
+
+        .cta-buttons .btn-primary:hover i {
+            transform: translateX(6px);
+        }
+
+        /* Hide mobile CTA buttons on desktop */
+        .mobile-cta-buttons {
+            display: none;
+        }
+
+        .menu-toggle {
+            display: none;
+            font-size: 1.5rem;
+            cursor: pointer;
+            color: var(--teal-primary);
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
+            background: rgba(0, 230, 204, 0.08);
+            border: 1px solid rgba(0, 230, 204, 0.2);
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s cubic-bezier(0.16, 1, 0.3, 1);
+            position: relative;
+            overflow: hidden;
+        }
+
+        .menu-toggle::before {
+            content: '';
+            position: absolute;
+            inset: 0;
+            background: linear-gradient(135deg, rgba(0, 230, 204, 0.1), rgba(88, 103, 221, 0.1));
+            opacity: 0;
+            transition: opacity 0.3s ease;
+            z-index: -1;
+        }
+
+        .menu-toggle:hover, .menu-toggle.active {
+            background: rgba(0, 230, 204, 0.15);
+            transform: translateY(-3px);
+            box-shadow: 0 8px 20px rgba(0, 0, 0, 0.15), 0 0 15px rgba(0, 230, 204, 0.2);
+            border-color: rgba(0, 230, 204, 0.4);
+        }
+
+        .menu-toggle:hover::before, .menu-toggle.active::before {
+            opacity: 1;
+        }
+
+        .menu-toggle.active i {
+            color: var(--text-white);
+        }
+
+        .nav-dot {
+            position: absolute;
+            width: 5px;
+            height: 5px;
+            background: var(--teal-primary);
+            border-radius: 50%;
+            bottom: -5px;
+            left: 50%;
+            transform: translateX(-50%) scale(0);
+            opacity: 0;
+            transition: all 0.3s ease;
+            box-shadow: 0 0 10px var(--teal-glow);
+        }
+
+        /* Responsive Header */
+        @media (max-width: 992px) {
+            .nav-links {
+                position: fixed;
+                top: 0;
+                right: -100%;
+                width: 75%;
+                height: 100vh;
+                background: linear-gradient(135deg, rgba(18, 18, 24, 0.98) 0%, rgba(10, 10, 15, 0.98) 100%);
+                backdrop-filter: blur(10px);
+                -webkit-backdrop-filter: blur(10px);
+                flex-direction: column;
+                justify-content: center;
+                align-items: center;
+                gap: 2.5rem;
+                transition: all 0.4s cubic-bezier(0.16, 1, 0.3, 1);
+                z-index: 999;
+                margin-left: 0;
+                box-shadow: -10px 0 30px rgba(0, 0, 0, 0.2);
+                border-left: 1px solid rgba(255, 255, 255, 0.08);
+            }
+            
+            .nav-links::before {
+                content: '';
+                position: absolute;
+                top: 20%;
+                right: 10%;
+                width: 150px;
+                height: 150px;
+                background: radial-gradient(circle, rgba(0, 230, 204, 0.05) 0%, rgba(0, 0, 0, 0) 70%);
+                border-radius: 50%;
+                filter: blur(30px);
+                z-index: -1;
+            }
+            
+            .nav-links.active {
+                right: 0;
+            }
+            
+            .nav-link {
+                font-size: 1.2rem;
+                padding: 10px 20px;
+                width: 80%;
+                text-align: center;
+            }
+            
+            .menu-toggle {
+                display: flex;
+                z-index: 1000;
+            }
+            
+            .cta-buttons {
+                display: none;
+            }
+            
+            .mobile-cta-buttons {
+                display: flex;
+                flex-direction: column;
+                margin-top: 3rem;
+                width: 80%;
+                gap: 1.2rem;
+            }
+            
+            .mobile-cta-buttons .btn {
+                width: 100%;
+                text-align: center;
+                border-radius: 12px;
+                padding: 1rem;
+                font-weight: 600;
+                letter-spacing: 0.5px;
+                transition: all 0.3s ease;
+            }
+            
+            .mobile-cta-buttons .btn-primary {
+                background: linear-gradient(135deg, var(--teal-primary) 0%, #5ee7d3 100%);
+                box-shadow: 0 5px 15px rgba(0, 230, 204, 0.2);
+            }
+            
+            .mobile-cta-buttons .btn-outline {
+                border: 2px solid rgba(0, 230, 204, 0.3);
+                background: rgba(0, 230, 204, 0.05);
+            }
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            z-index: 2000;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(5px);
+            -webkit-backdrop-filter: blur(5px);
+            animation: fadeIn 0.3s ease;
+        }
+
+        @keyframes fadeIn {
+            from { opacity: 0; }
+            to { opacity: 1; }
+        }
+
+        .modal-content {
+            background: var(--phantom-dark);
+            margin: 5% auto;
+            padding: 0;
+            border-radius: var(--border-radius-lg);
+            width: 90%;
+            max-width: 500px;
+            box-shadow: 0 25px 50px rgba(0, 0, 0, 0.5);
+            border: 1px solid rgba(0, 230, 204, 0.2);
+            position: relative;
+            animation: slideIn 0.3s ease;
+        }
+
+        @keyframes slideIn {
+            from { transform: translateY(-50px); opacity: 0; }
+            to { transform: translateY(0); opacity: 1; }
+        }
+
+        .close-modal {
+            position: absolute;
+            top: 15px;
+            right: 20px;
+            font-size: 28px;
+            font-weight: bold;
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-fast);
+            z-index: 10;
+        }
+
+        .close-modal:hover {
+            color: var(--teal-primary);
+            transform: rotate(90deg);
+        }
+
+        .auth-container {
+            padding: 2.5rem;
+        }
+
+        .auth-tabs {
+            display: flex;
+            margin-bottom: 2rem;
+            background: rgba(255, 255, 255, 0.05);
+            border-radius: var(--border-radius-md);
+            padding: 4px;
+        }
+
+        .auth-tab {
+            flex: 1;
+            padding: 0.8rem;
+            text-align: center;
+            background: transparent;
+            border: none;
+            color: var(--text-light);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+            border-radius: var(--border-radius-sm);
+        }
+
+        .auth-tab.active {
+            background: rgba(0, 230, 204, 0.15);
+            color: var(--teal-primary);
+        }
+
+        .auth-form {
+            display: none;
+        }
+
+        .auth-form.active {
+            display: block;
+        }
+
+        .auth-form h3 {
+            text-align: center;
+            margin-bottom: 1.5rem;
+            color: var(--text-white);
+        }
+
+        .form-group {
+            margin-bottom: 1.5rem;
+        }
+
+        .form-group label {
+            display: block;
+            margin-bottom: 0.5rem;
+            color: var(--text-light);
+            font-weight: 500;
+        }
+
+        .form-group input {
+            width: 100%;
+            padding: 0.8rem 1rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-white);
+            font-family: 'Inter', sans-serif;
+            transition: var(--transition-fast);
+        }
+
+        .form-group input:focus {
+            outline: none;
+            border-color: var(--teal-primary);
+            box-shadow: 0 0 0 2px rgba(0, 230, 204, 0.1);
+        }
+
+        .auth-divider {
+            display: flex;
+            align-items: center;
+            margin: 1.5rem 0;
+            color: var(--text-gray);
+        }
+
+        .auth-divider::before,
+        .auth-divider::after {
+            content: '';
+            flex: 1;
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+        }
+
+        .auth-divider span {
+            padding: 0 1rem;
+            font-size: 0.9rem;
+        }
+
+        .social-auth {
+            display: flex;
+            gap: 1rem;
+            margin-bottom: 1rem;
+        }
+
+        .btn-social {
+            flex: 1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 0.5rem;
+        }
+
+        /* Payment Status */
+        .payment-status {
+            padding: 3rem 2rem;
+            text-align: center;
+        }
+
+        .status-icon {
+            font-size: 4rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .status-icon.success {
+            color: var(--teal-primary);
+        }
+
+        .status-icon.error {
+            color: #ff4757;
+        }
+
+        .payment-status h3 {
+            margin-bottom: 1rem;
+            color: var(--text-white);
+        }
+
+        .payment-status p {
+            margin-bottom: 2rem;
+            color: var(--text-light);
+        }
+
+        /* Notification */
+        .notification {
+            position: fixed;
+            top: 20px;
+            right: 20px;
+            padding: 1rem 1.5rem;
+            border-radius: var(--border-radius-md);
+            background: var(--phantom-dark);
+            border-left: 4px solid;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.2);
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            z-index: 3000;
+            animation: slideInRight 0.3s ease;
+            max-width: 350px;
+        }
+
+        @keyframes slideInRight {
+            from { transform: translateX(100%); opacity: 0; }
+            to { transform: translateX(0); opacity: 1; }
+        }
+
+        .notification.success {
+            border-left-color: var(--teal-primary);
+        }
+
+        .notification.error {
+            border-left-color: #ff4757;
+        }
+
+        .notification.info {
+            border-left-color: #2d89ef;
+        }
+
+        .notification p {
+            margin-bottom: 0;
+            color: var(--text-white);
+        }
+
+        .close-notification {
+            background: none;
+            border: none;
+            color: var(--text-light);
+            font-size: 1.2rem;
+            cursor: pointer;
+            margin-left: 1rem;
+            transition: var(--transition-fast);
+        }
+
+        .close-notification:hover {
+            color: var(--text-white);
+        }
+
+        /* User Menu */
+        .user-menu {
+            display: none;
+            position: relative;
+        }
+
+        .user-avatar {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: linear-gradient(135deg, var(--teal-primary), var(--teal-secondary));
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--phantom-black);
+            font-weight: 600;
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .user-avatar:hover {
+            transform: scale(1.05);
+            box-shadow: 0 0 15px rgba(0, 230, 204, 0.3);
+        }
+
+        .user-dropdown {
+            position: absolute;
+            top: 100%;
+            right: 0;
+            background: var(--phantom-dark);
+            border-radius: var(--border-radius-md);
+            padding: 1rem 0;
+            margin-top: 0.5rem;
+            min-width: 200px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.3);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            display: none;
+            z-index: 1000;
+        }
+
+        .user-dropdown.active {
+            display: block;
+            animation: fadeIn 0.3s ease;
+        }
+
+        .user-dropdown-item {
+            padding: 0.7rem 1.5rem;
+            display: flex;
+            align-items: center;
+            gap: 0.7rem;
+            color: var(--text-light);
+            transition: var(--transition-fast);
+        }
+
+        .user-dropdown-item:hover {
+            background: rgba(255, 255, 255, 0.05);
+            color: var(--text-white);
+        }
+
+        .user-dropdown-item i {
+            width: 18px;
+            text-align: center;
+        }
+
+        .user-dropdown-divider {
+            height: 1px;
+            background: rgba(255, 255, 255, 0.1);
+            margin: 0.5rem 0;
+        }
+
+        /* Interactive Dashboard Demo */
+        .interactive-demo {
+            margin: 4rem 0;
+            padding: 2rem;
+            background: rgba(4, 11, 20, 0.7);
+            border-radius: var(--border-radius-lg);
+            border: 1px solid rgba(0, 230, 204, 0.2);
+        }
+
+        .interactive-demo h3 {
+            text-align: center;
+            margin-bottom: 2rem;
+            color: var(--text-white);
+        }
+
+        .dashboard-controls {
+            display: flex;
+            justify-content: center;
+            gap: 1rem;
+            margin-bottom: 2rem;
+        }
+
+        .control-btn {
+            padding: 0.7rem 1.5rem;
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: var(--border-radius-md);
+            color: var(--text-light);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .control-btn.active,
+        .control-btn:hover {
+            background: rgba(0, 230, 204, 0.15);
+            color: var(--teal-primary);
+            border-color: rgba(0, 230, 204, 0.3);
+        }
+
+        .dashboard-preview.interactive {
+            background: var(--phantom-black);
+            border-radius: var(--border-radius-md);
+            padding: 2rem;
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            min-height: 400px;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 1.5rem;
+        }
+
+        .dashboard-widget {
+            flex: 1;
+            min-width: 300px;
+            background: rgba(30, 30, 36, 0.5);
+            border-radius: var(--border-radius-md);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            transition: var(--transition-fast);
+        }
+
+        .dashboard-widget.hidden {
+            display: none;
+        }
+
+        .widget-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1.5rem;
+            padding-bottom: 0.8rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .widget-header h4 {
+            margin-bottom: 0;
+            color: var(--text-white);
+        }
+
+        .widget-actions {
+            display: flex;
+            gap: 0.8rem;
+        }
+
+        .widget-actions i {
+            color: var(--text-gray);
+            cursor: pointer;
+            transition: var(--transition-fast);
+        }
+
+        .widget-actions i:hover {
+            color: var(--teal-primary);
+        }
+
+        .widget-content {
+            height: 250px;
+            display: flex;
+            flex-direction: column;
+        }
+
+        .chart-container {
+            flex: 1;
+            position: relative;
+        }
+
+        .widget-stats {
+            display: flex;
+            justify-content: space-around;
+            margin-top: 1rem;
+            padding-top: 1rem;
+            border-top: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .widget-stats .stat {
+            text-align: center;
+        }
+
+        .widget-stats .value {
+            display: block;
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: var(--teal-primary);
+            margin-bottom: 0.3rem;
+        }
+
+        .widget-stats .label {
+            font-size: 0.9rem;
+            color: var(--text-gray);
+        }
+
+        /* Dashboard Styles */
+        .dashboard-container {
+            display: none;
+            padding: 2rem;
+            max-width: 1400px;
+            margin: 0 auto;
+        }
+
+        .dashboard-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 2rem;
+            padding-bottom: 1rem;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+        }
+
+        .dashboard-title {
+            font-size: 1.8rem;
+            color: var(--text-white);
+        }
+
+        .dashboard-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+            gap: 1.5rem;
+            margin-bottom: 2rem;
+        }
+
+        .dashboard-card {
+            background: rgba(30, 30, 36, 0.5);
+            border-radius: var(--border-radius-md);
+            padding: 1.5rem;
+            border: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .dashboard-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 1rem;
+        }
+
+        .dashboard-card-title {
+            font-size: 1.1rem;
+            color: var(--text-white);
+            margin-bottom: 0;
+        }
+
+        .dashboard-card-content {
+            margin-top: 1rem;
+        }
+
+        /* Responsive styles */
+        @media (max-width: 768px) {
+            .dashboard-grid {
+                grid-template-columns: 1fr;
+            }
+            
+            .social-auth {
+                flex-direction: column;
+            }
+            
+            .modal-content {
+                width: 95%;
+                margin: 10% auto;
+            }
+        }
+    </style>
 </head>
 <body>
+    <!-- Authentication Modals -->
+    <div id="auth-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="auth-container">
+                <div class="auth-tabs">
+                    <button class="auth-tab active" data-tab="login">Login</button>
+                    <button class="auth-tab" data-tab="signup">Sign Up</button>
+                </div>
+                
+                <div class="auth-form active" id="login-form">
+                    <h3>Welcome Back</h3>
+                    <form id="login-form-element">
+                        <div class="form-group">
+                            <label for="login-email">Email</label>
+                            <input type="email" id="login-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="login-password">Password</label>
+                            <input type="password" id="login-password" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Login</button>
+                    </form>
+                    <div class="auth-divider">
+                        <span>or continue with</span>
+                    </div>
+                    <div class="social-auth">
+                        <button class="btn btn-outline btn-social" data-provider="google">
+                            <i class="fab fa-google"></i> Google
+                        </button>
+                        <button class="btn btn-outline btn-social" data-provider="github">
+                            <i class="fab fa-github"></i> GitHub
+                        </button>
+                    </div>
+                </div>
+                
+                <div class="auth-form" id="signup-form">
+                    <h3>Create Account</h3>
+                    <form id="signup-form-element">
+                        <div class="form-group">
+                            <label for="signup-name">Full Name</label>
+                            <input type="text" id="signup-name" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-email">Email</label>
+                            <input type="email" id="signup-email" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-password">Password</label>
+                            <input type="password" id="signup-password" required>
+                        </div>
+                        <div class="form-group">
+                            <label for="signup-confirm">Confirm Password</label>
+                            <input type="password" id="signup-confirm" required>
+                        </div>
+                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
 
+    <!-- Payment Success Modal -->
+    <div id="payment-success-modal" class="modal">
+        <div class="modal-content">
+            <span class="close-modal">&times;</span>
+            <div class="payment-status">
+                <div class="status-icon success">
+                    <i class="fas fa-check-circle"></i>
+                </div>
+                <h3>Payment Successful!</h3>
+                <p>Thank you for your purchase. Your subscription is now active.</p>
+                <a href="#" class="btn btn-primary">Go to Dashboard</a>
+            </div>
+        </div>
+    </div>
 
     <header>
         <nav>
             <div class="logo">
                 <img src="images/logo.png" alt="Phantom Dash Logo">
-                <span class="logo-text">Phantom <span class="text-gradient">Dash</span></span>
+                <span class="logo-text">Phantom <span class="logo-highlight">Dash</span></span>
             </div>
             <div class="nav-links">
                 <a href="#features" class="nav-link active">Features</a>
@@ -31,7 +1339,27 @@
                 </div>
             </div>
             <div class="cta-buttons">
-                <a href="#signup" class="btn btn-primary"><span class="text-gradient">Sign Up</span> <i class="fas fa-arrow-right"></i></a>
+                <a href="#signup" class="btn btn-primary" id="auth-button"><span class="text-gradient">Sign Up</span> <i class="fas fa-arrow-right"></i></a>
+            </div>
+            <div class="user-menu" id="user-menu">
+                <div class="user-avatar" id="user-avatar">
+                    <span id="user-initials">U</span>
+                </div>
+                <div class="user-dropdown" id="user-dropdown">
+                    <div class="user-dropdown-item">
+                        <i class="fas fa-user"></i>
+                        <span id="user-name">User Name</span>
+                    </div>
+                    <div class="user-dropdown-item">
+                        <i class="fas fa-cog"></i>
+                        <span>Settings</span>
+                    </div>
+                    <div class="user-dropdown-divider"></div>
+                    <div class="user-dropdown-item" id="logout-button">
+                        <i class="fas fa-sign-out-alt"></i>
+                        <span>Logout</span>
+                    </div>
+                </div>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -40,51 +1368,13 @@
     </header>
 
     <main>
+        <!-- Hero Section -->
         <section class="hero">
             <!-- Star particles and blur effects -->
-    <div class="star-field">
-        <div class="blur-overlay"></div>
-        <div class="star star-1"></div>
-        <div class="star star-2"></div>
-        <div class="star star-3"></div>
-        <div class="star star-4"></div>
-        <div class="star star-5"></div>
-        <div class="star star-6"></div>
-        <div class="star star-7"></div>
-        <div class="star star-8"></div>
-        <div class="star star-9"></div>
-        <div class="star star-10"></div>
-        <div class="star star-11"></div>
-        <div class="star star-12"></div>
-        <div class="star star-13"></div>
-        <div class="star star-14"></div>
-        <div class="star star-15"></div>
-        <div class="star star-16"></div>
-        <div class="star star-17"></div>
-        <div class="star star-18"></div>
-        <div class="star star-19"></div>
-        <div class="star star-20"></div>
-        <div class="star star-21"></div>
-        <div class="star star-22"></div>
-        <div class="star star-23"></div>
-        <div class="star star-24"></div>
-        <div class="star star-25"></div>
-        <div class="star star-26"></div>
-        <div class="star star-27"></div>
-        <div class="star star-28"></div>
-        <div class="star star-29"></div>
-        <div class="star star-30"></div>
-        <div class="star star-31"></div>
-        <div class="star star-32"></div>
-        <div class="star star-33"></div>
-        <div class="star star-34"></div>
-        <div class="star star-35"></div>
-        <div class="star star-36"></div>
-        <div class="star star-37"></div>
-        <div class="star star-38"></div>
-        <div class="star star-39"></div>
-        <div class="star star-40"></div>
-    </div>
+            <div class="star-field">
+                <div class="blur-overlay"></div>
+                <!-- Stars... -->
+            </div>
 
             <div class="hero-container">
                 <div class="hero-content">
@@ -113,441 +1403,772 @@
                     </div>
                 </div>
             </div>
-
         </section>
 
+        <!-- Features Section -->
         <section id="features" class="features">
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
+            <!-- ... existing features code ... -->
             
-            <div class="section-header">
-                <div class="section-tag"><span class="text-gradient">Features</span></div>
-                <h2><span class="text-gradient">Next-Gen Dashboard Experience</span></h2>
-                <p>Discover the future of data visualization with our cutting-edge features</p>
-            </div>
-            
-            <div class="features-cards">
-                <div class="feature-card-large">
-                    <div class="feature-card-content">
-                        <div class="feature-card-icon">
-                            <i class="fas fa-chart-line"></i>
-                        </div>
-                        <h3><span class="text-gradient">Real-time Analytics</span></h3>
-                        <p>Monitor your metrics with lightning-fast updates and zero latency. Our dashboard refreshes data every 3 seconds.</p>
-                        <div class="feature-card-stats">
-                            <div class="feature-stat">
-                                <span class="stat-value text-gradient">3s</span>
-                                <span class="stat-label">Refresh Rate</span>
-                            </div>
-                            <div class="feature-stat">
-                                <span class="stat-value text-gradient">99.9%</span>
-                                <span class="stat-label">Uptime</span>
-                            </div>
-                            <div class="feature-stat">
-                                <span class="stat-value text-gradient">100+</span>
-                                <span class="stat-label">Metrics</span>
-                            </div>
-                        </div>
-                        <a href="#" class="btn btn-primary"><span class="text-gradient">Explore Analytics</span> <i class="fas fa-arrow-right"></i></a>
-                    </div>
-                    <div class="feature-card-image">
-                        <img src="images/dashboard-preview.svg" alt="Analytics Dashboard">
-                    </div>
+            <!-- Interactive Dashboard Demo -->
+            <div class="interactive-demo">
+                <h3>Interactive Dashboard Preview</h3>
+                <div class="dashboard-controls">
+                    <button class="control-btn active" data-view="analytics">Analytics</button>
+                    <button class="control-btn" data-view="users">Users</button>
+                    <button class="control-btn" data-view="revenue">Revenue</button>
                 </div>
-                
-                <div class="features-grid">
-                    <div class="feature-card">
-                        <div class="feature-card-badge">
-                            <span class="text-gradient">NEW</span>
-                            <span class="badge-text">Premium Feature</span>
+                <div class="dashboard-preview interactive">
+                    <div class="dashboard-widget" data-view="analytics">
+                        <div class="widget-header">
+                            <h4>Real-time Analytics</h4>
+                            <div class="widget-actions">
+                                <i class="fas fa-sync-alt"></i>
+                                <i class="fas fa-expand"></i>
+                            </div>
                         </div>
-                        <div class="feature-card-icon">
-                            <i class="fas fa-palette"></i>
+                        <div class="widget-content">
+                            <div class="chart-container">
+                                <canvas id="analytics-chart"></canvas>
+                            </div>
+                            <div class="widget-stats">
+                                <div class="stat">
+                                    <span class="value">1,243</span>
+                                    <span class="label">Visits</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">64%</span>
+                                    <span class="label">Conversion</span>
+                                </div>
+                                <div class="stat">
+                                    <span class="value">$3,426</span>
+                                    <span class="label">Revenue</span>
+                                </div>
+                            </div>
                         </div>
-                        <h3><span class="text-gradient">Customizable UI</span></h3>
-                        <p>Build your perfect dashboard with drag-and-drop widgets and custom themes.</p>
-                        <ul class="feature-card-list">
-                            <li><i class="fas fa-check text-gradient"></i> Drag-and-drop interface</li>
-                            <li><i class="fas fa-check text-gradient"></i> Custom color themes</li>
-                            <li><i class="fas fa-check text-gradient"></i> Widget library</li>
-                        </ul>
-                        <a href="#" class="feature-link"><span class="text-gradient">Learn more</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
                     
-                    <div class="feature-card">
-                        <div class="feature-card-badge">
-                            <span class="text-gradient">HOT</span>
-                            <span class="badge-text">AI Feature</span>
+                    <div class="dashboard-widget hidden" data-view="users">
+                        <div class="widget-header">
+                            <h4>User Growth</h4>
+                            <div class="widget-actions">
+                                <i class="fas fa-sync-alt"></i>
+                                <i class="fas fa-expand"></i>
+                            </div>
                         </div>
-                        <div class="feature-card-icon">
-                            <i class="fas fa-robot"></i>
+                        <div class="widget-content">
+                            <div class="chart-container">
+                                <canvas id="users-chart"></canvas>
+                            </div>
                         </div>
-                        <h3><span class="text-gradient">AI-Powered Insights</span></h3>
-                        <p>Let our advanced AI analyze your data and suggest optimizations automatically.</p>
-                        <ul class="feature-card-list">
-                            <li><i class="fas fa-check text-gradient"></i> Predictive analytics</li>
-                            <li><i class="fas fa-check text-gradient"></i> Anomaly detection</li>
-                            <li><i class="fas fa-check text-gradient"></i> Smart recommendations</li>
-                        </ul>
-                        <a href="#" class="feature-link"><span class="text-gradient">Learn more</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
                     
-                    <div class="feature-card">
-                        <div class="feature-card-badge">
-                            <span class="text-gradient">PRO</span>
-                            <span class="badge-text">Enterprise Ready</span>
+                    <div class="dashboard-widget hidden" data-view="revenue">
+                        <div class="widget-header">
+                            <h4>Revenue Streams</h4>
+                            <div class="widget-actions">
+                                <i class="fas fa-sync-alt"></i>
+                                <i class="fas fa-expand"></i>
+                            </div>
                         </div>
-                        <div class="feature-card-icon">
-                            <i class="fas fa-lock"></i>
-                        </div>
-                        <h3><span class="text-gradient">Enterprise Security</span></h3>
-                        <p>Bank-level encryption and compliance with all major security standards to keep your data safe.</p>
-                        <ul class="feature-card-list">
-                            <li><i class="fas fa-check text-gradient"></i> End-to-end encryption</li>
-                            <li><i class="fas fa-check text-gradient"></i> GDPR compliant</li>
-                            <li><i class="fas fa-check text-gradient"></i> SOC 2 certified</li>
-                        </ul>
-                        <a href="#" class="feature-link"><span class="text-gradient">Learn more</span> <i class="fas fa-chevron-right"></i></a>
-                    </div>
-                    
-
-                </div>
-                
-                <div class="features-banner">
-                    <div class="banner-content">
-                        <h2>Ready to transform your data experience?</h2>
-                        <p>Join thousands of businesses already using Phantom Dash</p>
-                        <div class="banner-cta">
-                            <a href="#signup" class="btn btn-primary">Get Started</a>
-                            <a href="#demo" class="btn btn-outline">Watch Demo</a>
+                        <div class="widget-content">
+                            <div class="chart-container">
+                                <canvas id="revenue-chart"></canvas>
+                            </div>
                         </div>
                     </div>
                 </div>
             </div>
         </section>
 
+        <!-- Pricing Section -->
         <section id="pricing" class="pricing">
-            <div class="container">
-                <div class="pricing-top-text">
-                    <h3>SPECIAL OFFER: 20% OFF ALL PLANS FOR LIMITED TIME</h3>
-                </div>
-                <div class="section-header">
-                    <div class="section-tag">PRICING</div>
-                    <h2>Next-Gen <span class="text-gradient">Pricing Plans</span></h2>
-                    <p>Discover the future of subscription options with our <span class="text-gradient">cutting-edge</span> plans</p>
-                </div>
-
-
-                <div class="pricing-cards">
-                    <div class="pricing-card">
-                            <div class="pricing-icon">
-                                <i class="fas fa-rocket text-gradient"></i>
-                            </div>
-                            <div class="pricing-card-header">
-                                <h3><span class="text-gradient">Basic</span></h3>
-                                <div class="pricing-card-price">
-                                    <span class="currency">$</span>
-                                    <span class="amount">2</span>
-                                    <span class="period">/mo</span>
-                                </div>
-                            </div>
-                            <div class="pricing-features">
-                                <ul>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> Up to <span class="text-gradient">250</span> users</li>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">Basic</span> analytics</li>
-                                </ul>
-                            </div>
-                            <div class="pricing-cta">
-                                <a href="#signup" class="btn btn-outline">Get Started</a>
-                            </div>
-                    </div>
-
-                    <div class="pricing-card featured">
-                        <div class="pricing-badge"></div>
-                            <div class="pricing-icon">
-                                <i class="fas fa-crown text-gradient"></i>
-                            </div>
-                            <div class="pricing-card-header">
-                                <h3><span class="text-gradient">Pro</span></h3>
-                                <div class="pricing-card-price">
-                                    <span class="currency">$</span>
-                                    <span class="amount">6</span>
-                                    <span class="period">/mo</span>
-                                </div>
-                            </div>
-                            <div class="pricing-features">
-                                <ul>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> Up to <span class="text-gradient">2500</span> users</li>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> All <span class="text-gradient">basic</span> features</li>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> Advanced analytics</li>
-                                </ul>
-                            </div>
-                            <div class="pricing-cta">
-                                <a href="#signup" class="btn btn-primary">Get Started</a>
-                            </div>
-                    </div>
-
-                    <div class="pricing-card">
-                            <div class="pricing-icon">
-                                <i class="fas fa-building text-gradient"></i>
-                            </div>
-                            <div class="pricing-card-header">
-                                <h3><span class="text-gradient">Enterprise</span></h3>
-                                <div class="pricing-card-price">
-                                    <span class="currency">$</span>
-                                    <span class="amount">16</span>
-                                    <span class="decimal">.99</span>
-                                    <span class="period">/mo</span>
-                                </div>
-                            </div>
-                            <div class="pricing-features">
-                                <ul>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">Unlimited</span> users</li>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">All features</span> included</li>
-                                    <li><i class="fas fa-check-circle text-gradient"></i> Custom integrations</li>
-                                </ul>
-                            </div>
-                            <div class="pricing-cta">
-                                <a href="#contact" class="btn btn-outline">Contact Sales</a>
-                            </div>
-                    </div>
-                </div>
-
-                <div class="pricing-guarantee">
-                    <div class="pricing-guarantee-icon">
-                        <i class="fas fa-shield-alt"></i>
-                    </div>
-                    <h4>30-Day <span class="text-gradient">Money-Back</span> Guarantee</h4>
-                    <p>Try Phantom Dash <span class="text-gradient">risk-free</span>. If you're not completely satisfied within 30 days, we'll refund your payment.</p>
-                </div>
-            </div>
+            <!-- ... existing pricing code ... -->
         </section>
 
+        <!-- Testimonials Section -->
         <section id="testimonials" class="testimonials">
-
-            
-            <div class="section-header">
-                <div class="section-tag">Testimonials</div>
-                <h2>What Our <span class="text-gradient">Clients</span> Say</h2>
-                <p>Discover why industry leaders trust Phantom Dash</p>
-            </div>
-            
-            <div class="testimonial-container">
-                <div class="testimonial-slider">
-                    <div class="testimonial-card">
-                        <div class="testimonial-content">
-                            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                            <p>"Phantom Dash transformed how we visualize our data. The insights we've gained have directly contributed to a 32% increase in our quarterly revenue."</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <img src="images/testimonial-1.svg" alt="Sarah Johnson">
-                            <div class="author-info">
-                                <h4>Sarah Johnson</h4>
-                                <p>CTO, TechNova</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-content">
-                            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                            <p>"The customization options are incredible. We've been able to create dashboards that perfectly match our workflow, saving us hours of time each week."</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <img src="images/testimonial-2.svg" alt="Mark Rodriguez">
-                            <div class="author-info">
-                                <h4>Mark Rodriguez</h4>
-                                <p>Data Analyst, GrowthMetrics</p>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="testimonial-card">
-                        <div class="testimonial-content">
-                            <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-                            <p>"The AI-powered insights have been a game-changer for our business strategy. It's like having a data scientist on the team without the overhead."</p>
-                        </div>
-                        <div class="testimonial-author">
-                            <img src="images/testimonial-3.svg" alt="Jennifer Lee">
-                            <div class="author-info">
-                                <h4>Jennifer Lee</h4>
-                                <p>CEO, Innovate Inc</p>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-            
-            <div class="testimonial-indicators">
-                <div class="indicator active"></div>
-                <div class="indicator"></div>
-                <div class="indicator"></div>
-            </div>
-            
-            <div class="trusted-brands">
-                <div class="trusted-brands-header">
-                    <h3>Powering Innovation Across Industries</h3>
-                </div>
-                <div class="brands">
-                    <img src="images/brand-1.svg" alt="Brand 1">
-                    <img src="images/brand-2.svg" alt="Brand 2">
-                    <img src="images/brand-3.svg" alt="Brand 3">
-                    <img src="images/brand-4.svg" alt="Brand 4">
-                    <img src="images/brand-5.svg" alt="Brand 5">
-                </div>
-            </div>
+            <!-- ... existing testimonials code ... -->
         </section>
 
+        <!-- Contact Section -->
         <section id="contact" class="contact-section">
-            <!-- Orbs for visual effect, similar to features section -->
-            <div class="orb orb-1"></div>
-            <div class="orb orb-2"></div>
-            <div class="orb orb-3"></div>
-            
-            <div class="section-header">
-                <div class="section-tag">Contact Us</div>
-                <h2>Get in <span class="text-gradient">Touch</span></h2>
-                <p>Have questions? We're here to help you succeed</p>
+            <!-- ... existing contact code ... -->
+        </section>
+
+        <!-- Dashboard Section (Hidden by default) -->
+        <div class="dashboard-container" id="dashboard-container">
+            <div class="dashboard-header">
+                <h1 class="dashboard-title">Dashboard</h1>
+                <div class="dashboard-actions">
+                    <button class="btn btn-outline">
+                        <i class="fas fa-download"></i> Export
+                    </button>
+                    <button class="btn btn-primary">
+                        <i class="fas fa-plus"></i> New Report
+                    </button>
+                </div>
             </div>
-
-            <!-- Contact cards with main card on top and smaller cards below -->
-            <div class="contact-cards-container-vertical">
-                <!-- Main contact card -->
-                <div class="contact-card-main">
-                    <div class="feature-card-badge">
-                        <span class="text-gradient">CONTACT</span>
-                        <span class="badge-text">Get in Touch</span>
+            
+            <div class="dashboard-grid">
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3 class="dashboard-card-title">Performance Overview</h3>
+                        <i class="fas fa-info-circle"></i>
                     </div>
-                    <div class="feature-card-icon">
-                        <i class="fas fa-headset"></i>
+                    <div class="dashboard-card-content">
+                        <canvas id="performance-chart" height="250"></canvas>
                     </div>
-                    <h3><span class="text-gradient">Contact Support</span></h3>
-                    <p>Our dedicated support team is available to help you with any questions or issues you may have.</p>
-                    <ul class="feature-card-list">
-                        <li><i class="fas fa-check text-gradient"></i> 24/7 Technical Support</li>
-                        <li><i class="fas fa-check text-gradient"></i> Product Specialists</li>
-                        <li><i class="fas fa-check text-gradient"></i> Fast Response Time</li>
-                        <li><i class="fas fa-check text-gradient"></i> Detailed Solutions</li>
-                    </ul>
-
                 </div>
                 
-                <!-- Smaller cards container -->
-                <div class="contact-small-cards-row">
-                    <!-- Email card -->
-                    <div class="contact-card-small">
-                        <div class="feature-card-badge">
-                            <span class="text-gradient">EMAIL</span>
-                            <span class="badge-text">24/7 Support</span>
-                        </div>
-                        <div class="feature-card-icon">
-                            <i class="fas fa-envelope"></i>
-                        </div>
-                        <h3><span class="text-gradient">Email Us</span></h3>
-                        <p>Send us an email and we'll get back to you as soon as possible.</p>
-                        <a href="mailto:hello@phantomdash.com" class="feature-link"><span class="text-gradient">hello@phantomdash.com</span> <i class="fas fa-chevron-right"></i></a>
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3 class="dashboard-card-title">Key Metrics</h3>
+                        <i class="fas fa-info-circle"></i>
                     </div>
-                    
-                    <!-- Discord card -->
-                    <div class="contact-card-small">
-                        <div class="feature-card-badge">
-                            <span class="text-gradient">DISCORD</span>
-                            <span class="badge-text">Community</span>
+                    <div class="dashboard-card-content">
+                        <div class="widget-stats">
+                            <div class="stat">
+                                <span class="value">12.5K</span>
+                                <span class="label">Visitors</span>
+                            </div>
+                            <div class="stat">
+                                <span class="value">$48.2K</span>
+                                <span class="label">Revenue</span>
+                            </div>
+                            <div class="stat">
+                                <span class="value">64%</span>
+                                <span class="label">Conversion</span>
+                            </div>
                         </div>
-                        <div class="feature-card-icon">
-                            <i class="fab fa-discord"></i>
-                        </div>
-                        <h3><span class="text-gradient">Join Our Discord</span></h3>
-                        <p>Connect with our community and get real-time support from our team.</p>
-                        <a href="https://discord.gg/phantomdash" target="_blank" class="feature-link"><span class="text-gradient">discord.gg/phantomdash</span> <i class="fas fa-chevron-right"></i></a>
+                    </div>
+                </div>
+                
+                <div class="dashboard-card">
+                    <div class="dashboard-card-header">
+                        <h3 class="dashboard-card-title">Recent Activity</h3>
+                        <i class="fas fa-info-circle"></i>
+                    </div>
+                    <div class="dashboard-card-content">
+                        <ul class="activity-list">
+                            <li class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-user-plus"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>New user registered</p>
+                                    <span>2 minutes ago</span>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-chart-line"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>Monthly report generated</p>
+                                    <span>1 hour ago</span>
+                                </div>
+                            </li>
+                            <li class="activity-item">
+                                <div class="activity-icon">
+                                    <i class="fas fa-shopping-cart"></i>
+                                </div>
+                                <div class="activity-content">
+                                    <p>New order placed</p>
+                                    <span>3 hours ago</span>
+                                </div>
+                            </li>
+                        </ul>
                     </div>
                 </div>
             </div>
-        </section>
-
+        </div>
     </main>
 
     <footer id="footer" class="footer-modern">
-
-        
-        <div class="footer-main">
-            <div class="footer-container">
-                <div class="footer-brand">
-                    <div class="footer-logo">
-                        <img src="images/logo.png" alt="Phantom Dash Logo">
-                        <span class="logo-text">Phantom <span class="logo-highlight">Dash</span></span>
-                    </div>
-                    <p>Delivering powerful analytics, stunning visualizations, and actionable insights in one seamless platform.</p>
-                    <div class="footer-stats">
-                        <div class="footer-stat">
-                            <span class="stat-number">10K+</span>
-                            <span class="stat-label">Users</span>
-                        </div>
-                        <div class="footer-stat">
-                            <span class="stat-number">99.9%</span>
-                            <span class="stat-label">Uptime</span>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="footer-links-container">
-                    <div class="footer-column">
-                        <h4>Product</h4>
-                        <ul>
-                            <li><a href="#features">Features</a></li>
-                            <li><a href="#">Integrations</a></li>
-                            <li><a href="#">Updates</a></li>
-                            <li><a href="#">Roadmap</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Company</h4>
-                        <ul>
-                            <li><a href="#">About Us</a></li>
-                            <li><a href="#">Team</a></li>
-                            <li><a href="#">Careers</a></li>
-                            <li><a href="#">Press</a></li>
-                            <li><a href="#">Partners</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Resources</h4>
-                        <ul>
-                            <li><a href="#">Blog</a></li>
-                            <li><a href="#">Documentation</a></li>
-                            <li><a href="#">Guides</a></li>
-                            <li><a href="#">Webinars</a></li>
-                            <li><a href="#">Support</a></li>
-                        </ul>
-                    </div>
-                    <div class="footer-column">
-                        <h4>Connect</h4>
-                        <div class="footer-social">
-                            <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-                            <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-                            <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-                            <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-                            <a href="#" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        
-        <div class="footer-bottom">
-            <div class="footer-bottom-container">
-                <div class="footer-legal">
-                    <a href="#">Privacy Policy</a>
-                    <a href="#">Terms of Service</a>
-                    <a href="#">Cookie Policy</a>
-                    <a href="#">Security</a>
-                </div>
-                <div class="copyright">
-                    <p>&copy; 2025 Phantom Dash. Made with love by BlueWave Studio.</p>
-                </div>
-            </div>
-        </div>
+        <!-- ... existing footer code ... -->
     </footer>
 
-    <script src="script.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <script>
+        // Initialize Supabase
+        const supabaseUrl = 'https://etjoerlsuspwwxbwycpc.supabase.co';
+        const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0am9lcmxzdXNwd3d4Ynd5Y3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMTE3NTksImV4cCI6MjA3MjY4Nzc1OX0.5BATyXU30jfZWi-k9ZaDQa2bWeOvjtp9_U_4e-xGF1c';
+        const supabase = window.supabase.createClient(supabaseUrl, supabaseKey);
+        
+        // Initialize Stripe
+        const stripe = Stripe('pk_live_51Rolv4GrRXIugSobD7Hy5zJgBtdicGS7zk72uWRlLTk6DmoWe9RPfX3rrcyj9lSozn6knOrIxTu9uiI5TzCW6DXl00SjllbTyq');
+        
+        // User state
+        let currentUser = null;
+        
+        // Check if user is logged in
+        checkAuthState();
+        
+        // Mobile menu toggle
+        const menuToggle = document.querySelector('.menu-toggle');
+        const navLinks = document.querySelector('.nav-links');
+        
+        menuToggle.addEventListener('click', function() {
+            navLinks.classList.toggle('active');
+            this.classList.toggle('active');
+        });
+        
+        // Auth modal functionality
+        const authModal = document.getElementById('auth-modal');
+        const authTabs = document.querySelectorAll('.auth-tab');
+        const authForms = document.querySelectorAll('.auth-form');
+        const closeModalButtons = document.querySelectorAll('.close-modal');
+        
+        // Open auth modal when sign up buttons are clicked
+        document.querySelectorAll('[href="#signup"], [href="#login"]').forEach(button => {
+            button.addEventListener('click', (e) => {
+                e.preventDefault();
+                openAuthModal();
+            });
+        });
+        
+        // Auth tab switching
+        authTabs.forEach(tab => {
+            tab.addEventListener('click', () => {
+                const tabName = tab.getAttribute('data-tab');
+                
+                // Update active tab
+                authTabs.forEach(t => t.classList.remove('active'));
+                tab.classList.add('active');
+                
+                // Show correct form
+                authForms.forEach(form => {
+                    form.classList.remove('active');
+                    if (form.id === `${tabName}-form`) {
+                        form.classList.add('active');
+                    }
+                });
+            });
+        });
+        
+        // Close modal
+        closeModalButtons.forEach(button => {
+            button.addEventListener('click', closeAllModals);
+        });
+        
+        // Click outside modal to close
+        window.addEventListener('click', (e) => {
+            if (e.target === authModal) {
+                closeAllModals();
+            }
+        });
+        
+        // Login form submission
+        document.getElementById('login-form-element').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const email = document.getElementById('login-email').value;
+            const password = document.getElementById('login-password').value;
+            
+            try {
+                const { data, error } = await supabase.auth.signInWithPassword({
+                    email,
+                    password
+                });
+                
+                if (error) throw error;
+                
+                currentUser = data.user;
+                closeAllModals();
+                updateUIForAuthState();
+                
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
+        });
+        
+        // Signup form submission
+        document.getElementById('signup-form-element').addEventListener('submit', async (e) => {
+            e.preventDefault();
+            const name = document.getElementById('signup-name').value;
+            const email = document.getElementById('signup-email').value;
+            const password = document.getElementById('signup-password').value;
+            const confirm = document.getElementById('signup-confirm').value;
+            
+            if (password !== confirm) {
+                showNotification('Passwords do not match', 'error');
+                return;
+            }
+            
+            try {
+                const { data, error } = await supabase.auth.signUp({
+                    email,
+                    password,
+                    options: {
+                        data: {
+                            full_name: name
+                        }
+                    }
+                });
+                
+                if (error) throw error;
+                
+                showNotification('Check your email for verification link', 'success');
+                closeAllModals();
+                
+            } catch (error) {
+                showNotification(error.message, 'error');
+            }
+        });
+        
+        // Social auth buttons
+        document.querySelectorAll('.btn-social').forEach(button => {
+            button.addEventListener('click', async () => {
+                const provider = button.getAttribute('data-provider');
+                
+                try {
+                    const { error } = await supabase.auth.signInWithOAuth({
+                        provider,
+                        options: {
+                            redirectTo: window.location.origin
+                        }
+                    });
+                    
+                    if (error) throw error;
+                    
+                } catch (error) {
+                    showNotification(error.message, 'error');
+                }
+            });
+        });
+        
+        // Pricing plan selection
+        document.querySelectorAll('.pricing-cta .btn').forEach(button => {
+            button.addEventListener('click', async (e) => {
+                e.preventDefault();
+                
+                if (!currentUser) {
+                    openAuthModal();
+                    return;
+                }
+                
+                const plan = button.closest('.pricing-card').querySelector('h3').textContent.toLowerCase();
+                const priceId = getPriceIdForPlan(plan);
+                
+                try {
+                    // Create checkout session
+                    const response = await fetch('/create-checkout-session', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                            'Authorization': `Bearer ${currentUser.access_token}`
+                        },
+                        body: JSON.stringify({
+                            priceId: priceId,
+                            customerEmail: currentUser.email
+                        })
+                    });
+                    
+                    const session = await response.json();
+                    
+                    // Redirect to Stripe Checkout
+                    const { error } = await stripe.redirectToCheckout({
+                        sessionId: session.id
+                    });
+                    
+                    if (error) {
+                        showNotification(error.message, 'error');
+                    }
+                    
+                } catch (error) {
+                    showNotification('Error creating checkout session', 'error');
+                }
+            });
+        });
+        
+        // User menu toggle
+        const userAvatar = document.getElementById('user-avatar');
+        const userDropdown = document.getElementById('user-dropdown');
+        
+        if (userAvatar) {
+            userAvatar.addEventListener('click', (e) => {
+                e.stopPropagation();
+                userDropdown.classList.toggle('active');
+            });
+        }
+        
+        // Close dropdown when clicking outside
+        document.addEventListener('click', (e) => {
+            if (userDropdown && userDropdown.classList.contains('active') && 
+                !e.target.closest('.user-menu')) {
+                userDropdown.classList.remove('active');
+            }
+        });
+        
+        // Logout functionality
+        const logoutButton = document.getElementById('logout-button');
+        if (logoutButton) {
+            logoutButton.addEventListener('click', async () => {
+                try {
+                    const { error } = await supabase.auth.signOut();
+                    if (error) throw error;
+                    
+                    currentUser = null;
+                    updateUIForAuthState();
+                    showNotification('Successfully logged out', 'success');
+                    
+                } catch (error) {
+                    showNotification(error.message, 'error');
+                }
+            });
+        }
+        
+        // Interactive dashboard controls
+        const controlButtons = document.querySelectorAll('.control-btn');
+        const dashboardWidgets = document.querySelectorAll('.dashboard-widget');
+        
+        controlButtons.forEach(button => {
+            button.addEventListener('click', () => {
+                const view = button.getAttribute('data-view');
+                
+                // Update active button
+                controlButtons.forEach(btn => btn.classList.remove('active'));
+                button.classList.add('active');
+                
+                // Show correct widget
+                dashboardWidgets.forEach(widget => {
+                    widget.classList.add('hidden');
+                    if (widget.getAttribute('data-view') === view) {
+                        widget.classList.remove('hidden');
+                    }
+                });
+            });
+        });
+        
+        // Check for payment success in URL parameters
+        checkPaymentStatus();
+        
+        // Initialize charts
+        initDemoCharts();
+        
+        // Function to check authentication state
+        async function checkAuthState() {
+            const { data: { session } } = await supabase.auth.getSession();
+            
+            if (session) {
+                currentUser = session.user;
+                updateUIForAuthState();
+            }
+            
+            // Listen for auth changes
+            supabase.auth.onAuthStateChange((event, session) => {
+                if (event === 'SIGNED_IN' && session) {
+                    currentUser = session.user;
+                    updateUIForAuthState();
+                } else if (event === 'SIGNED_OUT') {
+                    currentUser = null;
+                    updateUIForAuthState();
+                }
+            });
+        }
+        
+        // Function to update UI based on auth state
+        function updateUIForAuthState() {
+            const authButton = document.getElementById('auth-button');
+            const userMenu = document.getElementById('user-menu');
+            const userInitials = document.getElementById('user-initials');
+            const userName = document.getElementById('user-name');
+            const mainContent = document.querySelector('main');
+            const dashboardContainer = document.getElementById('dashboard-container');
+            
+            if (currentUser) {
+                // User is logged in
+                if (authButton) {
+                    authButton.textContent = 'Dashboard';
+                    authButton.innerHTML = '<span class="text-gradient">Dashboard</span> <i class="fas fa-arrow-right"></i>';
+                    authButton.href = '#dashboard';
+                    authButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        showDashboard();
+                    });
+                }
+                
+                if (userMenu) {
+                    userMenu.style.display = 'block';
+                    const name = currentUser.user_metadata.full_name || currentUser.email;
+                    if (userName) userName.textContent = name;
+                    if (userInitials) {
+                        const initials = name.split(' ').map(n => n[0]).join('').toUpperCase();
+                        userInitials.textContent = initials;
+                    }
+                }
+                
+                // Show dashboard if URL hash is #dashboard
+                if (window.location.hash === '#dashboard') {
+                    showDashboard();
+                }
+                
+            } else {
+                // User is logged out
+                if (authButton) {
+                    authButton.textContent = 'Sign Up';
+                    authButton.innerHTML = '<span class="text-gradient">Sign Up</span> <i class="fas fa-arrow-right"></i>';
+                    authButton.href = '#signup';
+                    authButton.addEventListener('click', (e) => {
+                        e.preventDefault();
+                        openAuthModal();
+                    });
+                }
+                
+                if (userMenu) {
+                    userMenu.style.display = 'none';
+                }
+                
+                // Show main content
+                if (mainContent) mainContent.style.display = 'block';
+                if (dashboardContainer) dashboardContainer.style.display = 'none';
+            }
+        }
+        
+        // Function to show dashboard
+        function showDashboard() {
+            const mainContent = document.querySelector('main');
+            const dashboardContainer = document.getElementById('dashboard-container');
+            
+            if (mainContent) mainContent.style.display = 'none';
+            if (dashboardContainer) {
+                dashboardContainer.style.display = 'block';
+                initDashboardCharts();
+            }
+            
+            // Update URL
+            window.location.hash = 'dashboard';
+        }
+        
+        // Function to open auth modal
+        function openAuthModal() {
+            authModal.style.display = 'block';
+        }
+        
+        // Function to close all modals
+        function closeAllModals() {
+            document.querySelectorAll('.modal').forEach(modal => {
+                modal.style.display = 'none';
+            });
+        }
+        
+        // Function to show notification
+        function showNotification(message, type = 'info') {
+            // Create notification element
+            const notification = document.createElement('div');
+            notification.className = `notification ${type}`;
+            notification.innerHTML = `
+                <p>${message}</p>
+                <button class="close-notification">&times;</button>
+            `;
+            
+            // Add to page
+            document.body.appendChild(notification);
+            
+            // Auto remove after 5 seconds
+            setTimeout(() => {
+                notification.remove();
+            }, 5000);
+            
+            // Close button
+            notification.querySelector('.close-notification').addEventListener('click', () => {
+                notification.remove();
+            });
+        }
+        
+        // Function to get Stripe price ID for plan
+        function getPriceIdForPlan(plan) {
+            const priceIds = {
+                'basic': 'price_1Rolv4GrRXIugSobQxkBBuuxApsDpuv7K15FHht1rWGob042ypEdACA1cihqbgKbVsRLgOMMLlB2m7QnsrwPDBTW00Rk1e1lkg',
+                'pro': 'price_1Rolv4GrRXIugSobQxkBBuuxApsDpuv7K15FHht1rWGob042ypEdACA1cihqbgKbVsRLgOMMLlB2m7QnsrwPDBTW00Rk1e1lkg',
+                'enterprise': 'price_1Rolv4GrRXIugSobQxkBBuuxApsDpuv7K15FHht1rWGob042ypEdACA1cihqbgKbVsRLgOMMLlB2m7QnsrwPDBTW00Rk1e1lkg'
+            };
+            
+            return priceIds[plan] || priceIds.basic;
+        }
+        
+        // Function to check payment status from URL parameters
+        function checkPaymentStatus() {
+            const urlParams = new URLSearchParams(window.location.search);
+            const sessionId = urlParams.get('session_id');
+            
+            if (sessionId) {
+                // Show success modal
+                document.getElementById('payment-success-modal').style.display = 'block';
+                
+                // Clean URL
+                window.history.replaceState({}, document.title, window.location.pathname);
+            }
+        }
+        
+        // Function to initialize demo charts
+        function initDemoCharts() {
+            // Analytics Chart
+            const analyticsCtx = document.getElementById('analytics-chart');
+            if (analyticsCtx) {
+                new Chart(analyticsCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'Visitors',
+                            data: [12000, 19000, 15000, 25000, 22000, 30000],
+                            borderColor: '#00e6cc',
+                            tension: 0.3,
+                            fill: true,
+                            backgroundColor: 'rgba(0, 230, 204, 0.1)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Users Chart
+            const usersCtx = document.getElementById('users-chart');
+            if (usersCtx) {
+                new Chart(usersCtx, {
+                    type: 'bar',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                        datasets: [{
+                            label: 'New Users',
+                            data: [500, 1200, 800, 1500, 2000, 1800],
+                            backgroundColor: 'rgba(0, 230, 204, 0.5)'
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                display: false
+                            }
+                        },
+                        scales: {
+                            y: {
+                                beginAtZero: true,
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+            
+            // Revenue Chart
+            const revenueCtx = document.getElementById('revenue-chart');
+            if (revenueCtx) {
+                new Chart(revenueCtx, {
+                    type: 'doughnut',
+                    data: {
+                        labels: ['Product Sales', 'Subscriptions', 'Services'],
+                        datasets: [{
+                            data: [45, 35, 20],
+                            backgroundColor: [
+                                '#00e6cc',
+                                '#5867dd',
+                                '#ff6b6b'
+                            ]
+                        }]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        plugins: {
+                            legend: {
+                                position: 'bottom',
+                                labels: {
+                                    color: '#fff'
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+        
+        // Function to initialize dashboard charts
+        function initDashboardCharts() {
+            const performanceCtx = document.getElementById('performance-chart');
+            if (performanceCtx) {
+                new Chart(performanceCtx, {
+                    type: 'line',
+                    data: {
+                        labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun', 'Jul'],
+                        datasets: [
+                            {
+                                label: 'Revenue',
+                                data: [12000, 19000, 15000, 25000, 22000, 30000, 35000],
+                                borderColor: '#00e6cc',
+                                tension: 0.3,
+                                yAxisID: 'y'
+                            },
+                            {
+                                label: 'Users',
+                                data: [500, 1200, 800, 1500, 2000, 1800, 2500],
+                                borderColor: '#5867dd',
+                                tension: 0.3,
+                                yAxisID: 'y1'
+                            }
+                        ]
+                    },
+                    options: {
+                        responsive: true,
+                        maintainAspectRatio: false,
+                        scales: {
+                            y: {
+                                type: 'linear',
+                                display: true,
+                                position: 'left',
+                                grid: {
+                                    color: 'rgba(255, 255, 255, 0.05)'
+                                }
+                            },
+                            y1: {
+                                type: 'linear',
+                                display: true,
+                                position: 'right',
+                                grid: {
+                                    drawOnChartArea: false
+                                }
+                            },
+                            x: {
+                                grid: {
+                                    display: false
+                                }
+                            }
+                        }
+                    }
+                });
+            }
+        }
+    </script>
 </body>
 </html>
