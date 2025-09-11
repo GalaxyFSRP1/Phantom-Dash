@@ -1,0 +1,37 @@
+<svg width="200" height="50" viewBox="0 0 200 50" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Main Logo Shape - Stylized 'P' for Phantom -->
+  <path d="M35 10C35 10 25 10 20 10C15 10 10 15 10 20C10 25 15 30 20 30C25 30 30 30 30 30C30 30 30 35 30 40C30 45 25 45 25 45" stroke="#00E6CC" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>
+  
+  <!-- Dash Element -->
+  <line x1="40" y1="30" x2="55" y2="30" stroke="#00E6CC" stroke-width="4" stroke-linecap="round"/>
+  
+  <!-- Digital Circuit Elements -->
+  <circle cx="15" cy="20" r="2" fill="#00E6CC"/>
+  <circle cx="25" cy="10" r="2" fill="#00E6CC"/>
+  <circle cx="25" cy="30" r="2" fill="#00E6CC"/>
+  <circle cx="25" cy="45" r="2" fill="#00E6CC"/>
+  <circle cx="40" cy="30" r="2" fill="#00E6CC"/>
+  <circle cx="55" cy="30" r="2" fill="#00E6CC"/>
+  
+  <!-- Glow Effect -->
+  <circle cx="25" cy="30" r="4" fill="#00E6CC" opacity="0.3">
+    <animate attributeName="opacity" values="0.3;0.7;0.3" dur="2s" repeatCount="indefinite" />
+  </circle>
+  
+  <!-- Text: Phantom -->
+    <text x="65" y="25" font-family="Inter, sans-serif" font-weight="700" font-size="18" fill="white">Phantom</text>
+  
+  <!-- Text: Dash -->
+  <text x="65" y="40" font-family="Inter, sans-serif" font-weight="700" font-size="18" fill="#00E6CC">Dash</text>
+  
+  <!-- Subtle Background Glow -->
+  <circle cx="25" cy="25" r="20" fill="url(#glow)" opacity="0.1"/>
+  
+  <!-- Gradient Definition -->
+  <defs>
+    <radialGradient id="glow" cx="0.5" cy="0.5" r="0.5" fx="0.5" fy="0.5">
+      <stop offset="0%" stop-color="#00E6CC" stop-opacity="1"/>
+      <stop offset="100%" stop-color="#00E6CC" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+</svg>

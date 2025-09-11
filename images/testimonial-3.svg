@@ -1,0 +1,25 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="50" cy="50" r="50" fill="#2D2D35"/>
+  
+  <!-- Avatar - Female CEO -->
+  <circle cx="50" cy="40" r="20" fill="#A0A0A0"/>
+  <path d="M30 85 C30 65 70 65 70 85" fill="#A0A0A0"/>
+  
+  <!-- Hair -->
+  <path d="M30 40 C30 20 70 20 70 40" fill="#6D4C41"/>
+  <path d="M30 40 C30 25 40 20 50 25 C60 20 70 25 70 40" fill="#6D4C41"/>
+  
+  <!-- Face Details -->
+  <circle cx="42" cy="38" r="2" fill="#263238"/>
+  <circle cx="58" cy="38" r="2" fill="#263238"/>
+  <path d="M45 46 C45 49 55 49 55 46" stroke="#263238" stroke-width="1" fill="none"/>
+  
+  <!-- Executive Attire -->
+  <path d="M40 65 L50 75 L60 65" stroke="#00E6CC" stroke-width="2" fill="none"/>
+  <rect x="45" y="75" width="10" height="10" fill="#00E6CC" opacity="0.8"/>
+  
+  <!-- Earrings -->
+  <circle cx="30" cy="40" r="2" fill="#00E6CC"/>
+  <circle cx="70" cy="40" r="2" fill="#00E6CC"/>
+</svg>

@@ -1,0 +1,22 @@
+<svg width="100" height="100" viewBox="0 0 100 100" fill="none" xmlns="http://www.w3.org/2000/svg">
+  <!-- Background Circle -->
+  <circle cx="50" cy="50" r="50" fill="#2D2D35"/>
+  
+  <!-- Avatar - Female Professional -->
+  <circle cx="50" cy="40" r="20" fill="#A0A0A0"/>
+  <path d="M30 85 C30 65 70 65 70 85" fill="#A0A0A0"/>
+  
+  <!-- Hair -->
+  <path d="M30 40 C30 25 70 25 70 40" fill="#5D4037"/>
+  <path d="M30 40 C30 30 40 25 50 30 C60 25 70 30 70 40" fill="#5D4037"/>
+  
+  <!-- Face Details -->
+  <circle cx="42" cy="38" r="2" fill="#263238"/>
+  <circle cx="58" cy="38" r="2" fill="#263238"/>
+  <path d="M45 45 C45 48 55 48 55 45" stroke="#263238" stroke-width="1" fill="none"/>
+  
+  <!-- Professional Attire Accent -->
+  <path d="M40 65 L40 85" stroke="#00E6CC" stroke-width="2"/>
+  <path d="M60 65 L60 85" stroke="#00E6CC" stroke-width="2"/>
+  <path d="M40 75 L60 75" stroke="#00E6CC" stroke-width="2"/>
+</svg>
