@@ -1,100 +1,111 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <title>Phantom Dash | Dashboard</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <link rel="icon" href="images/logo.png" type="image/png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phantom Dash • Dashboard</title>
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="dashboardstyle.css">
-  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
   <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <div class="dashboard-root">
+  <div class="dash">
     <aside class="sidebar">
-      <div class="sidebar-header">
-        <img src="images/logo.png" alt="Logo">
-        <span class="logo-text">Phantom <span class="text-gradient">Dash</span></span>
+      <div class="brand-s">
+        <img src="images/logo.png" alt="Phantom Dash">
+        <div class="brand-t">Phantom <span class="accent">Dash</span></div>
       </div>
-      <nav class="sidebar-nav">
-        <a href="dashboard.html" class="nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
-        <a href="#" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
-        <a href="#" class="nav-item"><i class="fas fa-calendar-day"></i> Calendar</a>
-        <a href="#" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
-        <a href="#" class="nav-item"><i class="fas fa-sticky-note"></i> Notes</a>
-        <a href="index.html" class="nav-item"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+      <nav class="side-nav">
+        <button class="side-item active" data-view="overview"><i class="fas fa-tachometer-alt"></i><span>Overview</span></button>
+        <button class="side-item" data-view="analytics"><i class="fas fa-chart-line"></i><span>Analytics</span></button>
+        <button class="side-item" data-view="calendar"><i class="fas fa-calendar-alt"></i><span>Calendar</span></button>
+        <button class="side-item" data-view="notifications"><i class="fas fa-bell"></i><span>Notifications</span></button>
+        <button class="side-item" id="open-logout"><i class="fas fa-sign-out-alt"></i><span>Logout</span></button>
       </nav>
-      <div class="sidebar-footer"><span>Pro Plan</span></div>
+      <div class="sidebar-footer">Pro Plan</div>
     </aside>
-    <main class="dashboard-content">
-      <header class="dashboard-header">
-        <h1>Welcome, <span class="user-name">User</span>!</h1>
-        <div class="dashboard-actions">
-          <button class="btn btn-primary" id="new-widget-btn"><i class="fas fa-plus"></i> Add Widget</button>
-          <button class="btn btn-outline" id="export-btn"><i class="fas fa-download"></i> Export</button>
+
+    <main class="main">
+      <header class="dash-header">
+        <div class="left">
+          <h1>Dashboard</h1>
+          <p class="muted">Welcome back — here's what's happening</p>
+        </div>
+        <div class="right">
+          <button class="btn primary" id="addWidget"><i class="fas fa-plus"></i> Add</button>
+          <button class="btn" id="exportData"><i class="fas fa-download"></i> Export</button>
+          <div class="avatar" id="dashAvatar">JD</div>
         </div>
       </header>
-      <section class="widgets-grid">
-        <!-- Example widgets -->
-        <div class="widget widget-chart">
-          <div class="widget-header">
-            <span><i class="fas fa-chart-line"></i> Performance Overview</span>
-            <button class="widget-settings"><i class="fas fa-cog"></i></button>
+
+      <section class="grid widgets">
+        <!-- Performance chart -->
+        <section class="card">
+          <div class="card-head">
+            <h3>Performance</h3>
+            <div class="small-muted">Last 7 days</div>
           </div>
-          <div class="widget-body"><canvas id="performanceChart" height="80"></canvas></div>
-        </div>
-        <div class="widget widget-metrics">
-          <div class="widget-header"><span><i class="fas fa-bolt"></i> Key Metrics</span></div>
-          <div class="widget-body metrics">
-            <div class="metric"><span class="metric-label">Visitors</span><span class="metric-value">12.5K</span></div>
-            <div class="metric"><span class="metric-label">Revenue</span><span class="metric-value">$48.2K</span></div>
-            <div class="metric"><span class="metric-label">Conversion</span><span class="metric-value">64%</span></div>
-            <div class="metric"><span class="metric-label">Bounce Rate</span><span class="metric-value">38%</span></div>
+          <canvas id="chartPerf" height="120"></canvas>
+        </section>
+
+        <!-- Key metrics -->
+        <section class="card metrics">
+          <div class="metric">
+            <div class="label">Visitors</div>
+            <div class="value" id="visitors">12.5K</div>
           </div>
-        </div>
-        <div class="widget widget-activity">
-          <div class="widget-header"><span><i class="fas fa-history"></i> Recent Activity</span></div>
-          <div class="widget-body">
-            <ul class="activity-list">
-              <li class="activity-item"><i class="fas fa-user-plus"></i> New user registered <span class="activity-time">2m ago</span></li>
-              <li class="activity-item"><i class="fas fa-chart-line"></i> Monthly report generated <span class="activity-time">1h ago</span></li>
-              <li class="activity-item"><i class="fas fa-shopping-cart"></i> New order placed <span class="activity-time">3h ago</span></li>
-              <li class="activity-item"><i class="fas fa-robot"></i> AI anomaly detected <span class="activity-time">Today</span></li>
-            </ul>
+          <div class="metric">
+            <div class="label">Revenue</div>
+            <div class="value" id="revenue">$48.2K</div>
           </div>
-        </div>
-        <div class="widget widget-tasks">
-          <div class="widget-header"><span><i class="fas fa-tasks"></i> Quick Tasks</span></div>
-          <div class="widget-body">
-            <ul class="task-list">
-              <li><input type="checkbox" id="task1"><label for="task1">Review analytics</label></li>
-              <li><input type="checkbox" id="task2"><label for="task2">Export report</label></li>
-              <li><input type="checkbox" id="task3"><label for="task3">Invite team member</label></li>
-            </ul>
+          <div class="metric">
+            <div class="label">Conversion</div>
+            <div class="value" id="conv">64%</div>
           </div>
-        </div>
-        <div class="widget widget-announcement">
-          <div class="widget-header"><span><i class="fas fa-bullhorn"></i> Announcement</span></div>
-          <div class="widget-body"><p>🚀 New AI-powered insights are now live! Check your analytics for smart recommendations.</p></div>
-        </div>
-        <div class="widget widget-calendar">
-          <div class="widget-header"><span><i class="fas fa-calendar-day"></i> Calendar</span></div>
-          <div class="widget-body"><div id="calendar-widget"></div></div>
-        </div>
-        <div class="widget widget-clock">
-          <div class="widget-header"><span><i class="fas fa-clock"></i> Live Clock</span></div>
-          <div class="widget-body"><span id="dashboard-clock" style="font-size:2em;font-weight:700;"></span></div>
-        </div>
-        <div class="widget widget-notes">
-          <div class="widget-header"><span><i class="fas fa-sticky-note"></i> Quick Notes</span></div>
-          <div class="widget-body">
-            <textarea id="dashboard-note" placeholder="Write a quick note..." style="width:100%;height:60px;border-radius:8px;padding:8px;"></textarea>
+          <div class="metric">
+            <div class="label">Bounce</div>
+            <div class="value" id="bounce">38%</div>
           </div>
-        </div>
+        </section>
+
+        <!-- Recent activity -->
+        <section class="card">
+          <div class="card-head">
+            <h3>Recent Activity</h3>
+          </div>
+          <ul class="activity" id="activityList">
+            <li><i class="fas fa-user-plus"></i> New user registered <span class="ago">2m</span></li>
+            <li><i class="fas fa-chart-line"></i> Monthly report generated <span class="ago">1h</span></li>
+            <li><i class="fas fa-shopping-cart"></i> New order placed <span class="ago">3h</span></li>
+          </ul>
+        </section>
+
+        <!-- Calendar -->
+        <section class="card">
+          <div class="card-head"><h3>Calendar</h3></div>
+          <div id="miniCalendar" class="calendar">No events • demo</div>
+        </section>
+
+        <!-- Clock -->
+        <section class="card">
+          <div class="card-head"><h3>Live clock</h3></div>
+          <div class="clock" id="liveClock"></div>
+        </section>
+
+        <!-- Notes -->
+        <section class="card notes">
+          <div class="card-head"><h3>Quick notes</h3></div>
+          <textarea id="noteBox" placeholder="Type a quick note..."></textarea>
+          <div class="note-actions">
+            <button class="btn" id="saveNote">Save</button>
+            <button class="btn" id="clearNote">Clear</button>
+          </div>
+        </section>
       </section>
     </main>
   </div>
+
   <script src="dashboard.js"></script>
 </body>
 </html>
