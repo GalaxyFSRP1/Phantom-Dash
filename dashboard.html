@@ -20,13 +20,12 @@
       <nav class="sidebar-nav">
         <a href="dashboard.html" class="nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
         <a href="#" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
-        <a href="#" class="nav-item"><i class="fas fa-file-alt"></i> Reports</a>
-        <a href="#" class="nav-item"><i class="fas fa-cogs"></i> Settings</a>
+        <a href="#" class="nav-item"><i class="fas fa-calendar-day"></i> Calendar</a>
+        <a href="#" class="nav-item"><i class="fas fa-bell"></i> Notifications</a>
+        <a href="#" class="nav-item"><i class="fas fa-sticky-note"></i> Notes</a>
         <a href="index.html" class="nav-item"><i class="fas fa-sign-out-alt"></i> Log Out</a>
       </nav>
-      <div class="sidebar-footer">
-        <span>Pro Plan</span>
-      </div>
+      <div class="sidebar-footer"><span>Pro Plan</span></div>
     </aside>
     <main class="dashboard-content">
       <header class="dashboard-header">
@@ -43,14 +42,10 @@
             <span><i class="fas fa-chart-line"></i> Performance Overview</span>
             <button class="widget-settings"><i class="fas fa-cog"></i></button>
           </div>
-          <div class="widget-body">
-            <canvas id="performanceChart" height="80"></canvas>
-          </div>
+          <div class="widget-body"><canvas id="performanceChart" height="80"></canvas></div>
         </div>
         <div class="widget widget-metrics">
-          <div class="widget-header">
-            <span><i class="fas fa-bolt"></i> Key Metrics</span>
-          </div>
+          <div class="widget-header"><span><i class="fas fa-bolt"></i> Key Metrics</span></div>
           <div class="widget-body metrics">
             <div class="metric"><span class="metric-label">Visitors</span><span class="metric-value">12.5K</span></div>
             <div class="metric"><span class="metric-label">Revenue</span><span class="metric-value">$48.2K</span></div>
@@ -59,9 +54,7 @@
           </div>
         </div>
         <div class="widget widget-activity">
-          <div class="widget-header">
-            <span><i class="fas fa-history"></i> Recent Activity</span>
-          </div>
+          <div class="widget-header"><span><i class="fas fa-history"></i> Recent Activity</span></div>
           <div class="widget-body">
             <ul class="activity-list">
               <li class="activity-item"><i class="fas fa-user-plus"></i> New user registered <span class="activity-time">2m ago</span></li>
@@ -72,26 +65,33 @@
           </div>
         </div>
         <div class="widget widget-tasks">
-          <div class="widget-header">
-            <span><i class="fas fa-tasks"></i> Quick Tasks</span>
-          </div>
+          <div class="widget-header"><span><i class="fas fa-tasks"></i> Quick Tasks</span></div>
           <div class="widget-body">
             <ul class="task-list">
-              <li><input type="checkbox" id="task1"><label for="task1">Review monthly analytics</label></li>
-              <li><input type="checkbox" id="task2"><label for="task2">Export last week's report</label></li>
-              <li><input type="checkbox" id="task3"><label for="task3">Invite new team member</label></li>
+              <li><input type="checkbox" id="task1"><label for="task1">Review analytics</label></li>
+              <li><input type="checkbox" id="task2"><label for="task2">Export report</label></li>
+              <li><input type="checkbox" id="task3"><label for="task3">Invite team member</label></li>
             </ul>
           </div>
         </div>
         <div class="widget widget-announcement">
-          <div class="widget-header">
-            <span><i class="fas fa-bullhorn"></i> Announcement</span>
-          </div>
+          <div class="widget-header"><span><i class="fas fa-bullhorn"></i> Announcement</span></div>
+          <div class="widget-body"><p>🚀 New AI-powered insights are now live! Check your analytics for smart recommendations.</p></div>
+        </div>
+        <div class="widget widget-calendar">
+          <div class="widget-header"><span><i class="fas fa-calendar-day"></i> Calendar</span></div>
+          <div class="widget-body"><div id="calendar-widget"></div></div>
+        </div>
+        <div class="widget widget-clock">
+          <div class="widget-header"><span><i class="fas fa-clock"></i> Live Clock</span></div>
+          <div class="widget-body"><span id="dashboard-clock" style="font-size:2em;font-weight:700;"></span></div>
+        </div>
+        <div class="widget widget-notes">
+          <div class="widget-header"><span><i class="fas fa-sticky-note"></i> Quick Notes</span></div>
           <div class="widget-body">
-            <p>🚀 New AI-powered insights are now live! Check your analytics for smart recommendations.</p>
+            <textarea id="dashboard-note" placeholder="Write a quick note..." style="width:100%;height:60px;border-radius:8px;padding:8px;"></textarea>
           </div>
         </div>
-        <!-- Add more widgets here -->
       </section>
     </main>
   </div>
