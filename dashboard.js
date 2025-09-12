@@ -1,6 +1,5 @@
-
 document.addEventListener('DOMContentLoaded', () => {
-  // DEMO: Chart.js for performance widget
+  // Chart.js for performance widget
   if(window.Chart){
     const ctx = document.getElementById('performanceChart').getContext('2d');
     new Chart(ctx, {
@@ -28,15 +27,33 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
-  // New Widget Button Example (show alert, extend for real logic)
-  document.getElementById('new-widget-btn').onclick = () => {
-    alert("Widget library coming soon!");
-  };
+  // Live clock widget
+  function updateClock() {
+    const el = document.getElementById('dashboard-clock');
+    if(!el) return;
+    const now = new Date();
+    el.textContent = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  }
+  setInterval(updateClock, 1000);
+  updateClock();
 
-  // Export Button Example
-  document.getElementById('export-btn').onclick = () => {
-    alert("Exporting data... (demo)");
-  };
+  // Calendar (demo)
+  const cal = document.getElementById('calendar-widget');
+  if(cal){
+    const today = new Date();
+    cal.innerHTML = `<div style="text-align:center;font-size:2em;font-weight:700;">${today.getDate()}</div>
+    <div style="text-align:center;font-size:1.1em;color:#00e6cc;">${today.toLocaleString('default', { month: 'long' })}</div>
+    <div style="text-align:center;font-size:1em;color:#a0a0a0;">${today.getFullYear()}</div>`;
+  }
+
+  // Notes: Save to localStorage
+  const note = document.getElementById('dashboard-note');
+  if(note){
+    note.value = localStorage.getItem('dashboard-note') || '';
+    note.addEventListener('input', () => {
+      localStorage.setItem('dashboard-note', note.value);
+    });
+  }
 
   // Sidebar nav active state
   document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
@@ -45,4 +62,12 @@ document.addEventListener('DOMContentLoaded', () => {
       this.classList.add('active');
     }
   });
+
+  // New Widget/Add/Export buttons (demo)
+  document.getElementById('new-widget-btn').onclick = () => {
+    alert("Widget library coming soon!");
+  };
+  document.getElementById('export-btn').onclick = () => {
+    alert("Exporting data... (demo)");
+  };
 });
