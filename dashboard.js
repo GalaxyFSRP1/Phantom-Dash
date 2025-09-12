@@ -1,73 +1,94 @@
+// Dashboard interactions: chart, clock, notes (localStorage), simple add/export demos
 document.addEventListener('DOMContentLoaded', () => {
-  // Chart.js for performance widget
-  if(window.Chart){
-    const ctx = document.getElementById('performanceChart').getContext('2d');
-    new Chart(ctx, {
+  // Chart (Chart.js)
+  const ctx = document.getElementById('chartPerf');
+  if(ctx && window.Chart){
+    new Chart(ctx.getContext('2d'), {
       type: 'line',
       data: {
-        labels: ["Mon", "Tue", "Wed", "Thu", "Fri", "Sat", "Sun"],
+        labels: ['Mon','Tue','Wed','Thu','Fri','Sat','Sun'],
         datasets: [{
-          label: "Active Users",
-          data: [120, 180, 140, 210, 250, 200, 270],
-          fill: true,
-          borderColor: "#00e6cc",
-          backgroundColor: "rgba(0,230,204,0.12)",
-          tension: 0.4,
-          pointRadius: 4,
-          pointBackgroundColor: "#fff",
+          label: 'Active users',
+          data: [120,180,140,210,250,200,270],
+          borderColor: '#00e6cc',
+          backgroundColor: 'rgba(0,230,204,0.12)',
+          fill:true,
+          tension:0.35,
+          pointRadius:3
         }]
       },
-      options: {
-        plugins: { legend: { display: false } },
-        scales: {
-          x: { grid: { display: false }, ticks: { color: "#a0a0a0" } },
-          y: { grid: { color: "rgba(0,230,204,0.09)" }, ticks: { color: "#a0a0a0" } }
+      options:{
+        plugins:{legend:{display:false}},
+        scales:{
+          x:{grid:{display:false},ticks:{color:'#9aa6b2'}},
+          y:{grid:{color:'rgba(255,255,255,0.03)'},ticks:{color:'#9aa6b2'}}
         }
       }
     });
   }
 
-  // Live clock widget
-  function updateClock() {
-    const el = document.getElementById('dashboard-clock');
-    if(!el) return;
-    const now = new Date();
-    el.textContent = now.toLocaleTimeString([], {hour:'2-digit',minute:'2-digit',second:'2-digit'});
+  // Live clock
+  const clockEl = document.getElementById('liveClock');
+  function refreshClock(){
+    if(!clockEl) return;
+    const d = new Date();
+    clockEl.textContent = d.toLocaleTimeString();
   }
-  setInterval(updateClock, 1000);
-  updateClock();
+  setInterval(refreshClock, 1000);
+  refreshClock();
 
-  // Calendar (demo)
-  const cal = document.getElementById('calendar-widget');
-  if(cal){
-    const today = new Date();
-    cal.innerHTML = `<div style="text-align:center;font-size:2em;font-weight:700;">${today.getDate()}</div>
-    <div style="text-align:center;font-size:1.1em;color:#00e6cc;">${today.toLocaleString('default', { month: 'long' })}</div>
-    <div style="text-align:center;font-size:1em;color:#a0a0a0;">${today.getFullYear()}</div>`;
+  // Notes save/load
+  const noteBox = document.getElementById('noteBox');
+  const saveNote = document.getElementById('saveNote');
+  const clearNote = document.getElementById('clearNote');
+  if(noteBox){
+    noteBox.value = localStorage.getItem('phantom_note') || '';
   }
-
-  // Notes: Save to localStorage
-  const note = document.getElementById('dashboard-note');
-  if(note){
-    note.value = localStorage.getItem('dashboard-note') || '';
-    note.addEventListener('input', () => {
-      localStorage.setItem('dashboard-note', note.value);
+  if(saveNote){
+    saveNote.addEventListener('click', ()=> {
+      localStorage.setItem('phantom_note', noteBox.value || '');
+      alert('Note saved locally (demo)');
+    });
+  }
+  if(clearNote){
+    clearNote.addEventListener('click', ()=> {
+      noteBox.value = '';
+      localStorage.removeItem('phantom_note');
     });
   }
 
-  // Sidebar nav active state
-  document.querySelectorAll('.sidebar-nav .nav-item').forEach(item => {
-    item.onclick = function(){
-      document.querySelectorAll('.sidebar-nav .nav-item').forEach(i => i.classList.remove('active'));
-      this.classList.add('active');
-    }
-  });
+  // Export demo: gather metrics and notes
+  const exportBtn = document.getElementById('exportData');
+  if(exportBtn){
+    exportBtn.addEventListener('click', ()=>{
+      const payload = {
+        visitors: document.getElementById('visitors')?.textContent || null,
+        revenue: document.getElementById('revenue')?.textContent || null,
+        note: localStorage.getItem('phantom_note') || ''
+      };
+      const blob = new Blob([JSON.stringify(payload, null, 2)], {type:'application/json'});
+      const url = URL.createObjectURL(blob);
+      const a = document.createElement('a');
+      a.href = url; a.download = 'phantom-export.json';
+      document.body.appendChild(a); a.click(); a.remove();
+      URL.revokeObjectURL(url);
+    });
+  }
 
-  // New Widget/Add/Export buttons (demo)
-  document.getElementById('new-widget-btn').onclick = () => {
-    alert("Widget library coming soon!");
-  };
-  document.getElementById('export-btn').onclick = () => {
-    alert("Exporting data... (demo)");
-  };
+  // Add widget (demo)
+  const addWidget = document.getElementById('addWidget');
+  if(addWidget){
+    addWidget.addEventListener('click', ()=> {
+      alert('Widget library / custom widgets coming soon — demo only.');
+    });
+  }
+
+  // Sidebar interactions
+  document.querySelectorAll('.side-item').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.side-item').forEach(b=>b.classList.remove('active'));
+      btn.classList.add('active');
+      // demo: could switch views here
+    });
+  });
 });
