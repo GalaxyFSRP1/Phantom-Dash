@@ -1,69 +1,83 @@
 document.addEventListener('DOMContentLoaded', function() {
+  // Mobile menu toggle
+  const menuToggle = document.querySelector('.menu-toggle');
+  const navLinks = document.querySelector('.nav-links');
+  menuToggle.addEventListener('click', function() {
+    navLinks.classList.toggle('active');
+    this.classList.toggle('active');
+  });
 
-    // Mobile menu toggle
-    const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+  // Auth modal logic (simplified, expand as needed)
+  const authButton = document.getElementById('auth-button');
+  const authModal = document.getElementById('auth-modal');
+  const closeModalEls = document.querySelectorAll('.close-modal');
+  if(authButton){
+    authButton.onclick = () => { authModal.style.display = 'block'; }
+  }
+  closeModalEls.forEach(el => el.onclick = () => {
+    el.closest('.modal').style.display = 'none';
+  });
+  window.onclick = (e) => {
+    if(e.target.classList.contains('modal')) e.target.style.display = 'none';
+  };
 
-    menuToggle.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-        this.classList.toggle('active');
+  // Auth tab switching
+  document.querySelectorAll('.auth-tab').forEach(tab => {
+    tab.addEventListener('click', function() {
+      document.querySelectorAll('.auth-tab').forEach(t => t.classList.remove('active'));
+      this.classList.add('active');
+      document.querySelectorAll('.auth-form').forEach(form => form.classList.remove('active'));
+      document.getElementById(this.dataset.tab + '-form').classList.add('active');
     });
-    
-    // Contact form submission
-    const contactForm = document.querySelector('.contact-form');
-    if (contactForm) {
-        contactForm.addEventListener('submit', function(e) {
-            e.preventDefault();
-            
-            // Get form values
-            const name = document.getElementById('name').value;
-            const email = document.getElementById('email').value;
-            const subject = document.getElementById('subject').value;
-            const message = document.getElementById('message').value;
-            
-            // Simple validation
-            if (!name || !email || !message) {
-                alert('Please fill out all required fields');
-                return;
-            }
-            
-            // Simulate form submission
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
-            submitBtn.disabled = true;
-            
-            // Simulate API call with timeout
-            setTimeout(() => {
-                // Reset form
-                contactForm.reset();
-                
-                // Show success message
-                const formContainer = document.querySelector('.contact-form-container');
-                const successMessage = document.createElement('div');
-                successMessage.className = 'form-success-message';
-                successMessage.innerHTML = `
-                    <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-                    <h3>Message Sent!</h3>
-                    <p>Thank you for reaching out. We'll get back to you shortly.</p>
-                    <button class="btn btn-outline send-another"><span class="text-gradient">Send Another</span></button>
-                `;
-                
-                formContainer.innerHTML = '';
-                formContainer.appendChild(successMessage);
-                
-                // Add event listener to "Send Another" button
-                const sendAnotherBtn = document.querySelector('.send-another');
-                if (sendAnotherBtn) {
-                    sendAnotherBtn.addEventListener('click', function() {
-                        formContainer.innerHTML = '';
-                        formContainer.appendChild(contactForm);
-                        submitBtn.innerHTML = originalBtnText;
-                        submitBtn.disabled = false;
-                    });
-                }
-            }, 2000);
-        });
+  });
+
+  // Simulate login/signup (expand with your backend logic)
+  document.getElementById('login-form-element').onsubmit = e => {
+    e.preventDefault();
+    // Add your logic here!
+    authModal.style.display = 'none';
+    // Simulate user login
+    document.getElementById('user-menu').style.display = 'flex';
+  };
+  document.getElementById('signup-form-element').onsubmit = e => {
+    e.preventDefault();
+    // Add your logic here!
+    authModal.style.display = 'none';
+    // Simulate user signup
+    document.getElementById('user-menu').style.display = 'flex';
+  };
+
+  // User dropdown toggle
+  const userAvatar = document.getElementById('user-avatar');
+  if(userAvatar){
+    userAvatar.onclick = () => {
+      document.getElementById('user-dropdown').classList.toggle('active');
+    };
+  }
+
+  // Simulate logout
+  const logoutButton = document.getElementById('logout-button');
+  if(logoutButton){
+    logoutButton.onclick = () => {
+      document.getElementById('user-menu').style.display = 'none';
+    };
+  }
+
+  // Payment Success Modal (simulate navigation)
+  const goToDash = document.getElementById('go-to-dashboard');
+  if(goToDash) {
+    goToDash.onclick = () => {
+      window.location.href = "dashboard.html";
     }
+  }
+
+  // Starfield background (make it dynamic & pretty!)
+  const starField = document.querySelector('.star-field');
+  if(starField){
+    for(let i=0;i<40;i++){
+      const star = document.createElement('div');
+      star.className = 'star star-' + (i+1);
+      starField.appendChild(star);
+    }
+  }
 });
