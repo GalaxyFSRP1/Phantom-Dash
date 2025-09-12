@@ -1,438 +1,325 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Phantom Dash | The Ultimate Dashboard Solution</title>
-  <link rel="icon" href="images/logo.png" type="image/png">
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Phantom Dash | Ultimate Dashboard</title>
+  <link rel="icon" href="images/logo.png" type="image/png" />
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="style.css">
   <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;700;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 </head>
 <body>
-  <!-- Auth Modal (Login/Signup) -->
-  <div id="auth-modal" class="modal">
-    <div class="modal-content">
-      <span class="close-modal">&times;</span>
-      <div class="auth-container">
+  <!-- AUTH MODAL -->
+  <div id="auth-modal" class="modal" aria-hidden="true">
+    <div class="modal-panel">
+      <button class="modal-close" aria-label="Close">&times;</button>
+      <div class="auth">
         <div class="auth-tabs">
-          <button class="auth-tab active" data-tab="login">Login</button>
-          <button class="auth-tab" data-tab="signup">Sign Up</button>
+          <button class="auth-tab active" data-for="login">Login</button>
+          <button class="auth-tab" data-for="signup">Sign up</button>
         </div>
-        <form class="auth-form active" id="login-form">
-          <h3>Welcome Back</h3>
-          <div class="form-group"><input type="email" id="login-email" placeholder="Email" required></div>
-          <div class="form-group"><input type="password" id="login-password" placeholder="Password" required></div>
-          <button type="submit" class="btn btn-primary btn-full">Login</button>
-          <div class="auth-divider"><span>or continue with</span></div>
-          <div class="social-auth">
-            <button type="button" class="btn btn-outline btn-social" data-provider="google"><i class="fab fa-google"></i> Google</button>
-            <button type="button" class="btn btn-outline btn-social" data-provider="github"><i class="fab fa-github"></i> GitHub</button>
+
+        <form id="login-form" class="auth-form active" autocomplete="on">
+          <h3>Welcome back</h3>
+          <label class="form-group">
+            <span>Email</span>
+            <input type="email" id="login-email" required placeholder="you@company.com" />
+          </label>
+          <label class="form-group">
+            <span>Password</span>
+            <input type="password" id="login-password" required placeholder="••••••••" />
+          </label>
+          <button type="submit" class="btn btn-primary full">Login</button>
+          <div class="auth-footer">
+            <small>Or continue with</small>
+            <div class="socials">
+              <button type="button" class="btn btn-outline" data-provider="google"><i class="fab fa-google"></i></button>
+              <button type="button" class="btn btn-outline" data-provider="github"><i class="fab fa-github"></i></button>
+            </div>
           </div>
         </form>
-        <form class="auth-form" id="signup-form">
-          <h3>Create Account</h3>
-          <div class="form-group"><input type="text" id="signup-name" placeholder="Full Name" required></div>
-          <div class="form-group"><input type="email" id="signup-email" placeholder="Email" required></div>
-          <div class="form-group"><input type="password" id="signup-password" placeholder="Password" required></div>
-          <div class="form-group"><input type="password" id="signup-confirm" placeholder="Confirm Password" required></div>
-          <button type="submit" class="btn btn-primary btn-full">Create Account</button>
+
+        <form id="signup-form" class="auth-form" autocomplete="on">
+          <h3>Create account</h3>
+          <label class="form-group">
+            <span>Full name</span>
+            <input type="text" id="signup-name" required placeholder="Jane Doe" />
+          </label>
+          <label class="form-group">
+            <span>Email</span>
+            <input type="email" id="signup-email" required placeholder="you@company.com" />
+          </label>
+          <label class="form-group">
+            <span>Password</span>
+            <input type="password" id="signup-pass" required placeholder="••••••••" />
+          </label>
+          <button type="submit" class="btn btn-primary full">Create account</button>
         </form>
       </div>
     </div>
   </div>
-  <header>
-    <nav>
-      <div class="logo">
-        <img src="images/logo.png" alt="Phantom Dash Logo">
-        <span class="logo-text">Phantom <span class="text-gradient">Dash</span></span>
-      </div>
-      <div class="nav-links">
-        <a href="#features" class="nav-link active">Features</a>
+
+  <!-- HEADER -->
+  <header class="site-header">
+    <div class="container header-inner">
+      <a class="brand" href="index.html">
+        <img src="images/logo.png" alt="Phantom Dash">
+        <span class="brand-text">Phantom <span class="accent">Dash</span></span>
+      </a>
+
+      <nav class="nav" id="siteNav">
+        <a href="#features" class="nav-link">Features</a>
         <a href="#widgets" class="nav-link">Widgets</a>
         <a href="#pricing" class="nav-link">Pricing</a>
         <a href="#testimonials" class="nav-link">Testimonials</a>
         <a href="#contact" class="nav-link">Contact</a>
-      </div>
-      <div class="cta-buttons">
-        <a href="#" class="btn btn-primary" id="auth-button"><span class="text-gradient">Sign Up</span> <i class="fas fa-arrow-right"></i></a>
-        <a href="dashboard.html" class="btn btn-outline"><i class="fas fa-th-large"></i> Dashboard</a>
-      </div>
-      <div class="user-menu" id="user-menu" style="display:none;">
-        <div class="user-avatar" id="user-avatar">
-          <span id="user-initials">U</span>
-        </div>
-        <div class="user-dropdown" id="user-dropdown">
-          <div class="user-dropdown-item"><i class="fas fa-user"></i> <span id="user-name">User Name</span></div>
-          <div class="user-dropdown-item"><i class="fas fa-cog"></i> Settings</div>
-          <div class="user-dropdown-divider"></div>
-          <div class="user-dropdown-item" id="logout-button"><i class="fas fa-sign-out-alt"></i> Logout</div>
+      </nav>
+
+      <div class="actions">
+        <button class="btn btn-ghost" id="go-dashboard"><i class="fas fa-th-large"></i> Dashboard</button>
+        <button class="btn btn-primary" id="open-auth">Sign up</button>
+        <button class="menu-toggle" id="menuToggle"><i class="fas fa-bars"></i></button>
+        <div id="userMenu" class="user hidden">
+          <button id="userAvatar" class="avatar">U</button>
+          <div class="user-dropdown" id="userDropdown">
+            <div class="user-row"><strong id="userFullName">User</strong></div>
+            <button class="user-action" id="logoutBtn"><i class="fas fa-sign-out-alt"></i> Logout</button>
+          </div>
         </div>
       </div>
-      <div class="menu-toggle"><i class="fas fa-bars"></i></div>
-    </nav>
+    </div>
   </header>
-  <main>
-    <section class="hero" id="hero">
-      <div class="star-field"></div>
-      <div class="hero-container">
-        <div class="hero-content">
-          <div class="hero-tagline"><span class="text-gradient">Next Generation Analytics</span></div>
-          <h1>The <span class="text-gradient">Ultimate Dashboard</span> Experience</h1>
-          <p class="hero-description">Phantom Dash delivers powerful analytics, stunning visualizations, and actionable insights in one seamless platform. Transform your data into strategic decisions with our cutting-edge dashboard solution.</p>
-          <div class="hero-cta">
-            <a href="#features" class="btn btn-primary btn-large"><span class="text-gradient">Get Started</span></a>
-            <a href="#demo" class="btn btn-secondary btn-large"><span class="text-gradient">Watch Demo</span></a>
-          </div>
-          <div class="hero-stats">
-            <div class="stat"><span class="stat-number text-gradient">98%</span><span class="stat-label">Satisfaction</span></div>
-            <div class="stat"><span class="stat-number text-gradient">24/7</span><span class="stat-label">Support</span></div>
-          </div>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="starfield" aria-hidden="true"></div>
+    <div class="container hero-inner">
+      <div class="hero-left">
+        <p class="eyebrow">Next generation analytics</p>
+        <h1>Experience the <span class="accent">ultimate</span> dashboard</h1>
+        <p class="lead">Powerful analytics, beautiful visualizations, and fast actionable insights — all in one app.</p>
+        <div class="hero-ctas">
+          <a class="btn btn-primary" href="#pricing">Get started</a>
+          <a class="btn btn-outline" href="#demo">Watch demo</a>
         </div>
-        <div class="hero-image">
-          <div class="dashboard-preview">
-            <img src="images/dashboard-preview.svg" alt="Phantom Dash Preview">
+        <div class="stats">
+          <div class="stat">
+            <div class="stat-num">98%</div>
+            <div class="stat-label">Satisfaction</div>
           </div>
-        </div>
-      </div>
-    </section>
-    <!-- Features Section -->
-    <section id="features" class="features">
-      <div class="section-header">
-        <div class="section-tag"><span class="text-gradient">Features</span></div>
-        <h2><span class="text-gradient">Next-Gen Dashboard Experience</span></h2>
-        <p>Discover the future of data visualization with our cutting-edge features</p>
-      </div>
-      <div class="features-cards">
-        <div class="feature-card-large">
-          <div class="feature-card-content">
-            <div class="feature-card-icon"><i class="fas fa-chart-line"></i></div>
-            <h3><span class="text-gradient">Real-time Analytics</span></h3>
-            <p>Lightning-fast metric updates. Our dashboard refreshes every 3 seconds.</p>
-            <div class="feature-card-stats">
-              <div class="feature-stat"><span class="stat-value text-gradient">3s</span><span class="stat-label">Refresh</span></div>
-              <div class="feature-stat"><span class="stat-value text-gradient">99.9%</span><span class="stat-label">Uptime</span></div>
-              <div class="feature-stat"><span class="stat-value text-gradient">100+</span><span class="stat-label">Metrics</span></div>
-            </div>
-            <a href="dashboard.html" class="btn btn-primary"><span class="text-gradient">Explore Analytics</span> <i class="fas fa-arrow-right"></i></a>
-          </div>
-          <div class="feature-card-image">
-            <img src="images/dashboard-preview.svg" alt="Analytics Dashboard">
-          </div>
-        </div>
-        <div class="features-grid">
-          <div class="feature-card">
-            <div class="feature-card-badge"><span class="text-gradient">AI</span><span class="badge-text">Smart</span></div>
-            <div class="feature-card-icon"><i class="fas fa-robot"></i></div>
-            <h3><span class="text-gradient">AI Insights</span></h3>
-            <p>Let AI analyze your data, spot anomalies, and suggest optimizations.</p>
-            <ul class="feature-card-list">
-              <li><i class="fas fa-check text-gradient"></i> Predictive analytics</li>
-              <li><i class="fas fa-check text-gradient"></i> Anomaly detection</li>
-              <li><i class="fas fa-check text-gradient"></i> Smart recommendations</li>
-            </ul>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card-badge"><span class="text-gradient">UX</span><span class="badge-text">Custom</span></div>
-            <div class="feature-card-icon"><i class="fas fa-palette"></i></div>
-            <h3><span class="text-gradient">Customizable UI</span></h3>
-            <p>Build your perfect dashboard: drag-and-drop widgets, themes, and layouts.</p>
-            <ul class="feature-card-list">
-              <li><i class="fas fa-check text-gradient"></i> Drag-and-drop widgets</li>
-              <li><i class="fas fa-check text-gradient"></i> Color & dark mode</li>
-            </ul>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card-badge"><span class="text-gradient">SAFE</span><span class="badge-text">Security</span></div>
-            <div class="feature-card-icon"><i class="fas fa-lock"></i></div>
-            <h3><span class="text-gradient">Enterprise Security</span></h3>
-            <p>Bank-level encryption and compliance with all major standards.</p>
-            <ul class="feature-card-list">
-              <li><i class="fas fa-check text-gradient"></i> End-to-end encryption</li>
-              <li><i class="fas fa-check text-gradient"></i> SSO & 2FA</li>
-            </ul>
-          </div>
-          <div class="feature-card">
-            <div class="feature-card-badge"><span class="text-gradient">TEAM</span><span class="badge-text">Collab</span></div>
-            <div class="feature-card-icon"><i class="fas fa-users-cog"></i></div>
-            <h3><span class="text-gradient">Team Management</span></h3>
-            <p>Invite teammates, assign roles, and manage activity in real-time.</p>
-            <ul class="feature-card-list">
-              <li><i class="fas fa-check text-gradient"></i> Role-based access</li>
-              <li><i class="fas fa-check text-gradient"></i> Audit logs</li>
-            </ul>
-          </div>
-        </div>
-        <div class="features-banner">
-          <div class="banner-content">
-            <h2>Ready to transform your data experience?</h2>
-            <p>Join thousands already using Phantom Dash</p>
-            <div class="banner-cta">
-              <a href="#signup" class="btn btn-primary">Get Started</a>
-              <a href="#demo" class="btn btn-outline">Watch Demo</a>
-            </div>
+          <div class="stat">
+            <div class="stat-num">24/7</div>
+            <div class="stat-label">Support</div>
           </div>
         </div>
       </div>
-    </section>
-    <!-- Widgets Demo Section -->
-    <section class="widgets-demo" id="widgets">
-      <div class="section-header">
-        <div class="section-tag"><span class="text-gradient">Widgets</span></div>
-        <h2>Everything you need, <span class="text-gradient">right on your dashboard</span></h2>
-        <p>Mix and match charts, notes, calendars, notifications, and more!</p>
+      <div class="hero-right">
+        <div class="mockup">
+          <img src="images/dashboard-preview.svg" alt="Dashboard preview">
+        </div>
       </div>
-      <div class="widgets-demo-row">
-        <div class="widgets-demo-card">
-          <i class="fas fa-calendar-day"></i>
+    </div>
+  </section>
+
+  <!-- FEATURES -->
+  <section id="features" class="section">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="tag">Features</span>
+        <h2>Everything you need to turn data into decisions</h2>
+        <p class="muted">Fast live updates, AI-powered insights, customizable widgets, and secure enterprise-grade controls.</p>
+      </div>
+
+      <div class="grid cards">
+        <article class="card">
+          <div class="icon"><i class="fas fa-chart-line"></i></div>
+          <h3>Real-time analytics</h3>
+          <p>Stream updates and metrics with low latency and instant visualization.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i class="fas fa-robot"></i></div>
+          <h3>AI insights</h3>
+          <p>Automatic anomaly detection and smart suggestions for optimizations.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i class="fas fa-palette"></i></div>
+          <h3>Customizable UI</h3>
+          <p>Drag, drop and style widgets to match your workflow and brand.</p>
+        </article>
+        <article class="card">
+          <div class="icon"><i class="fas fa-lock"></i></div>
+          <h3>Security & Compliance</h3>
+          <p>End-to-end encryption, SSO support and audit logs for teams.</p>
+        </article>
+      </div>
+    </div>
+  </section>
+
+  <!-- WIDGETS DEMO -->
+  <section id="widgets" class="section alt">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="tag">Widgets</span>
+        <h2>Mix and match widgets</h2>
+        <p class="muted">Charts, notes, calendars, notifications and live metrics — ready for your dashboard.</p>
+      </div>
+
+      <div class="widgets-row">
+        <div class="widget-demo">
+          <i class="fas fa-calendar-alt"></i>
           <h4>Calendar</h4>
-          <p>See upcoming events and deadlines.</p>
+          <p>Upcoming events</p>
         </div>
-        <div class="widgets-demo-card">
+        <div class="widget-demo">
           <i class="fas fa-bell"></i>
           <h4>Notifications</h4>
-          <p>Real-time alerts and system updates.</p>
+          <p>Real-time alerts</p>
         </div>
-        <div class="widgets-demo-card">
+        <div class="widget-demo">
           <i class="fas fa-sticky-note"></i>
           <h4>Quick Notes</h4>
-          <p>Jot down ideas and todos instantly.</p>
+          <p>Save ideas and todos</p>
         </div>
-        <div class="widgets-demo-card">
+        <div class="widget-demo">
           <i class="fas fa-chart-pie"></i>
-          <h4>Pie Chart</h4>
-          <p>Visualize distribution metrics.</p>
-        </div>
-        <div class="widgets-demo-card">
-          <i class="fas fa-clock"></i>
-          <h4>Live Clock</h4>
-          <p>Monitor time zones or schedules.</p>
-        </div>
-      </div>
-    </section>
-    <!-- Pricing Section -->
-    <section id="pricing" class="pricing">
-      <div class="container">
-        <div class="pricing-top-text"><h3>SPECIAL OFFER: 20% OFF ALL PLANS</h3></div>
-        <div class="section-header">
-          <div class="section-tag">PRICING</div>
-          <h2>Simple <span class="text-gradient">Pricing Plans</span></h2>
-          <p>No hidden fees. Cancel anytime.</p>
-        </div>
-        <div class="pricing-cards">
-          <div class="pricing-card">
-            <div class="pricing-icon"><i class="fas fa-rocket text-gradient"></i></div>
-            <div class="pricing-card-header"><h3><span class="text-gradient">Basic</span></h3>
-              <div class="pricing-card-price"><span class="currency">$</span><span class="amount">2</span><span class="period">/mo</span></div>
-            </div>
-            <div class="pricing-features">
-              <ul>
-                <li><i class="fas fa-check-circle text-gradient"></i> 250 users</li>
-                <li><i class="fas fa-check-circle text-gradient"></i> Basic analytics</li>
-              </ul>
-            </div>
-            <div class="pricing-cta"><a href="#" class="btn btn-outline">Get Started</a></div>
-          </div>
-          <div class="pricing-card featured">
-            <div class="pricing-icon"><i class="fas fa-crown text-gradient"></i></div>
-            <div class="pricing-card-header"><h3><span class="text-gradient">Pro</span></h3>
-              <div class="pricing-card-price"><span class="currency">$</span><span class="amount">6</span><span class="period">/mo</span></div>
-            </div>
-            <div class="pricing-features">
-              <ul>
-                <li><i class="fas fa-check-circle text-gradient"></i> 2500 users</li>
-                <li><i class="fas fa-check-circle text-gradient"></i> All basic features</li>
-                <li><i class="fas fa-check-circle text-gradient"></i> Advanced analytics</li>
-              </ul>
-            </div>
-            <div class="pricing-cta"><a href="#" class="btn btn-primary">Get Started</a></div>
-          </div>
-          <div class="pricing-card">
-            <div class="pricing-icon"><i class="fas fa-building text-gradient"></i></div>
-            <div class="pricing-card-header"><h3><span class="text-gradient">Enterprise</span></h3>
-              <div class="pricing-card-price"><span class="currency">$</span><span class="amount">16</span><span class="period">/mo</span></div>
-            </div>
-            <div class="pricing-features">
-              <ul>
-                <li><i class="fas fa-check-circle text-gradient"></i> Unlimited users</li>
-                <li><i class="fas fa-check-circle text-gradient"></i> All features included</li>
-                <li><i class="fas fa-check-circle text-gradient"></i> Custom integrations</li>
-              </ul>
-            </div>
-            <div class="pricing-cta"><a href="#contact" class="btn btn-outline">Contact Sales</a></div>
-          </div>
-        </div>
-        <div class="pricing-guarantee">
-          <div class="pricing-guarantee-icon"><i class="fas fa-shield-alt"></i></div>
-          <h4>30-Day <span class="text-gradient">Money-Back</span> Guarantee</h4>
-          <p>Cancel within 30 days for a full refund.</p>
-        </div>
-      </div>
-    </section>
-    <!-- Testimonials Section -->
-    <section id="testimonials" class="testimonials">
-      <div class="section-header">
-        <div class="section-tag">Testimonials</div>
-        <h2>What Our <span class="text-gradient">Clients</span> Say</h2>
-        <p>Discover why industry leaders trust Phantom Dash</p>
-      </div>
-      <div class="testimonial-container">
-        <div class="testimonial-slider">
-          <div class="testimonial-card">
-            <div class="testimonial-content">
-              <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-              <p>"Phantom Dash transformed how we visualize our data. The insights we've gained have directly contributed to a 32% increase in our quarterly revenue."</p>
-            </div>
-            <div class="testimonial-author">
-              <img src="images/testimonial-1.svg" alt="Sarah Johnson">
-              <div class="author-info"><h4>Sarah Johnson</h4><p>CTO, TechNova</p></div>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-content">
-              <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-              <p>"The customization options are incredible. We've been able to create dashboards that perfectly match our workflow, saving us hours of time each week."</p>
-            </div>
-            <div class="testimonial-author">
-              <img src="images/testimonial-2.svg" alt="Mark Rodriguez">
-              <div class="author-info"><h4>Mark Rodriguez</h4><p>Data Analyst, GrowthMetrics</p></div>
-            </div>
-          </div>
-          <div class="testimonial-card">
-            <div class="testimonial-content">
-              <div class="quote-icon"><i class="fas fa-quote-left"></i></div>
-              <p>"The AI-powered insights have been a game-changer for our business strategy. It's like having a data scientist on the team without the overhead."</p>
-            </div>
-            <div class="testimonial-author">
-              <img src="images/testimonial-3.svg" alt="Jennifer Lee">
-              <div class="author-info"><h4>Jennifer Lee</h4><p>CEO, Innovate Inc</p></div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div class="testimonial-indicators">
-        <div class="indicator active"></div>
-        <div class="indicator"></div>
-        <div class="indicator"></div>
-      </div>
-      <div class="trusted-brands">
-        <div class="trusted-brands-header"><h3>Trusted by Top Companies</h3></div>
-        <div class="brands">
-          <img src="images/brand-1.svg" alt="Brand 1">
-          <img src="images/brand-2.svg" alt="Brand 2">
-          <img src="images/brand-3.svg" alt="Brand 3">
-          <img src="images/brand-4.svg" alt="Brand 4">
-          <img src="images/brand-5.svg" alt="Brand 5">
-        </div>
-      </div>
-    </section>
-    <!-- Contact Section -->
-    <section id="contact" class="contact-section">
-      <div class="section-header">
-        <div class="section-tag">Contact Us</div>
-        <h2>Get in <span class="text-gradient">Touch</span></h2>
-        <p>We're here to help you succeed!</p>
-      </div>
-      <div class="contact-cards-container-vertical">
-        <div class="contact-card-main">
-          <div class="feature-card-badge">
-            <span class="text-gradient">CONTACT</span>
-            <span class="badge-text">Get in Touch</span>
-          </div>
-          <div class="feature-card-icon"><i class="fas fa-headset"></i></div>
-          <h3><span class="text-gradient">Contact Support</span></h3>
-          <ul class="feature-card-list">
-            <li><i class="fas fa-check text-gradient"></i> 24/7 Technical Support</li>
-            <li><i class="fas fa-check text-gradient"></i> Product Specialists</li>
-            <li><i class="fas fa-check text-gradient"></i> Fast Response Time</li>
-          </ul>
-        </div>
-        <div class="contact-small-cards-row">
-          <div class="contact-card-small">
-            <div class="feature-card-badge"><span class="text-gradient">EMAIL</span><span class="badge-text">24/7</span></div>
-            <div class="feature-card-icon"><i class="fas fa-envelope"></i></div>
-            <h3><span class="text-gradient">Email Us</span></h3>
-            <a href="mailto:hello@phantomdash.com" class="feature-link"><span class="text-gradient">hello@phantomdash.com</span> <i class="fas fa-chevron-right"></i></a>
-          </div>
-          <div class="contact-card-small">
-            <div class="feature-card-badge"><span class="text-gradient">DISCORD</span><span class="badge-text">Community</span></div>
-            <div class="feature-card-icon"><i class="fab fa-discord"></i></div>
-            <h3><span class="text-gradient">Join Discord</span></h3>
-            <a href="https://discord.gg/phantomdash" target="_blank" class="feature-link"><span class="text-gradient">discord.gg/phantomdash</span> <i class="fas fa-chevron-right"></i></a>
-          </div>
-        </div>
-      </div>
-    </section>
-  </main>
-  <footer id="footer" class="footer-modern">
-    <div class="footer-main">
-      <div class="footer-container">
-        <div class="footer-brand">
-          <div class="footer-logo">
-            <img src="images/logo.png" alt="Phantom Dash Logo">
-            <span class="logo-text">Phantom <span class="logo-highlight">Dash</span></span>
-          </div>
-          <p>Delivering powerful analytics, stunning visualizations, and actionable insights in one seamless platform.</p>
-          <div class="footer-stats">
-            <div class="footer-stat"><span class="stat-number">10K+</span><span class="stat-label">Users</span></div>
-            <div class="footer-stat"><span class="stat-number">99.9%</span><span class="stat-label">Uptime</span></div>
-          </div>
-        </div>
-        <div class="footer-links-container">
-          <div class="footer-column">
-            <h4>Product</h4>
-            <ul>
-              <li><a href="#features">Features</a></li>
-              <li><a href="#widgets">Widgets</a></li>
-              <li><a href="#">Integrations</a></li>
-              <li><a href="#">Updates</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h4>Company</h4>
-            <ul>
-              <li><a href="#">About Us</a></li>
-              <li><a href="#">Team</a></li>
-              <li><a href="#">Careers</a></li>
-              <li><a href="#">Press</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h4>Resources</h4>
-            <ul>
-              <li><a href="#">Blog</a></li>
-              <li><a href="#">Docs</a></li>
-              <li><a href="#">Guides</a></li>
-              <li><a href="#">Webinars</a></li>
-            </ul>
-          </div>
-          <div class="footer-column">
-            <h4>Connect</h4>
-            <div class="footer-social">
-              <a href="#" class="social-link" aria-label="Twitter"><i class="fab fa-twitter"></i></a>
-              <a href="#" class="social-link" aria-label="LinkedIn"><i class="fab fa-linkedin-in"></i></a>
-              <a href="#" class="social-link" aria-label="Facebook"><i class="fab fa-facebook-f"></i></a>
-              <a href="#" class="social-link" aria-label="Instagram"><i class="fab fa-instagram"></i></a>
-              <a href="#" class="social-link" aria-label="GitHub"><i class="fab fa-github"></i></a>
-            </div>
-          </div>
+          <h4>Distribution</h4>
+          <p>Pie and bar charts</p>
         </div>
       </div>
     </div>
-    <div class="footer-bottom">
-      <div class="footer-bottom-container">
-        <div class="footer-legal">
-          <a href="#">Privacy Policy</a>
-          <a href="#">Terms</a>
-          <a href="#">Cookies</a>
-          <a href="#">Security</a>
+  </section>
+
+  <!-- PRICING -->
+  <section id="pricing" class="section">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="tag">Pricing</span>
+        <h2>Simple plans that scale</h2>
+        <p class="muted">From solo projects to enterprise deployments.</p>
+      </div>
+
+      <div class="grid pricing-cards">
+        <div class="price-card">
+          <div class="price-head"><h3>Basic</h3><div class="price">$2 <small>/mo</small></div></div>
+          <ul class="features-list">
+            <li>250 users</li>
+            <li>Basic analytics</li>
+          </ul>
+          <a class="btn btn-outline" href="#signup">Start free</a>
         </div>
-        <div class="copyright">
-          <p>&copy; 2025 Phantom Dash. Made with love by BlueWave Studio.</p>
+
+        <div class="price-card featured">
+          <div class="price-head"><h3>Pro</h3><div class="price">$6 <small>/mo</small></div></div>
+          <ul class="features-list">
+            <li>2500 users</li>
+            <li>Realtime & advanced analytics</li>
+            <li>AI insights</li>
+          </ul>
+          <a class="btn btn-primary" href="#signup">Get Pro</a>
+        </div>
+
+        <div class="price-card">
+          <div class="price-head"><h3>Enterprise</h3><div class="price">Contact</div></div>
+          <ul class="features-list">
+            <li>Unlimited users</li>
+            <li>Custom integrations</li>
+            <li>Dedicated support</li>
+          </ul>
+          <a class="btn btn-outline" href="#contact">Contact sales</a>
         </div>
       </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section id="testimonials" class="section alt">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="tag">Testimonials</span>
+        <h2>Trusted by teams worldwide</h2>
+        <p class="muted">See how Phantom Dash helps product and growth teams.</p>
+      </div>
+
+      <div class="testimonial-slider" id="testiSlider">
+        <div class="testimonial">
+          <p class="quote">"Phantom Dash helped us spot key trends and increase revenue by 32%."</p>
+          <div class="author"><strong>Sarah J.</strong><span>CTO, TechNova</span></div>
+        </div>
+        <div class="testimonial">
+          <p class="quote">"Customization is incredible — dashboards that actually match our workflow."</p>
+          <div class="author"><strong>Mark R.</strong><span>Data Analyst, GrowthMetrics</span></div>
+        </div>
+        <div class="testimonial">
+          <p class="quote">"AI insights saved us time and surfaced trends we missed."</p>
+          <div class="author"><strong>Jennifer L.</strong><span>CEO, Innovate Inc</span></div>
+        </div>
+      </div>
+      <div class="testimonial-controls" id="testiControls"></div>
+    </div>
+  </section>
+
+  <!-- CONTACT -->
+  <section id="contact" class="section contact">
+    <div class="container narrow">
+      <div class="section-head">
+        <span class="tag">Contact</span>
+        <h2>Let's get you set up</h2>
+        <p class="muted">Questions? We're ready to help.</p>
+      </div>
+
+      <div class="contact-grid">
+        <div class="contact-card">
+          <h4>Support</h4>
+          <p>Email us at <a href="mailto:hello@phantomdash.com">hello@phantomdash.com</a></p>
+          <p>Join our Discord for community support.</p>
+        </div>
+
+        <form id="contactForm" class="contact-form">
+          <label class="form-group">
+            <span>Name</span>
+            <input type="text" id="cf-name" required>
+          </label>
+          <label class="form-group">
+            <span>Email</span>
+            <input type="email" id="cf-email" required>
+          </label>
+          <label class="form-group">
+            <span>Message</span>
+            <textarea id="cf-message" rows="5" required></textarea>
+          </label>
+          <button type="submit" class="btn btn-primary full">Send message</button>
+        </form>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div>
+          <img src="images/logo.png" alt="Phantom Dash" class="footer-logo">
+          <p class="muted">Powerful analytics, stunning visualizations, and actionable insights.</p>
+        </div>
+        <div>
+          <h5>Product</h5>
+          <ul><li><a href="#features">Features</a></li><li><a href="#pricing">Pricing</a></li></ul>
+        </div>
+        <div>
+          <h5>Company</h5>
+          <ul><li><a href="#">About</a></li><li><a href="#">Careers</a></li></ul>
+        </div>
+        <div>
+          <h5>Contact</h5>
+          <ul><li><a href="mailto:hello@phantomdash.com">hello@phantomdash.com</a></li><li><a href="#">Discord</a></li></ul>
+        </div>
+      </div>
+      <div class="footer-bottom">© 2025 Phantom Dash • Built with ♥</div>
     </div>
   </footer>
+
   <script src="script.js"></script>
 </body>
 </html>
