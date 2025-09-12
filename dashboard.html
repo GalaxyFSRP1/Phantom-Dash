@@ -1,1 +1,100 @@
-
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Phantom Dash | Dashboard</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="icon" href="images/logo.png" type="image/png">
+  <link rel="stylesheet" href="dashboardstyle.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;800&display=swap" rel="stylesheet">
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+  <div class="dashboard-root">
+    <aside class="sidebar">
+      <div class="sidebar-header">
+        <img src="images/logo.png" alt="Logo">
+        <span class="logo-text">Phantom <span class="text-gradient">Dash</span></span>
+      </div>
+      <nav class="sidebar-nav">
+        <a href="dashboard.html" class="nav-item active"><i class="fas fa-tachometer-alt"></i> Dashboard</a>
+        <a href="#" class="nav-item"><i class="fas fa-chart-bar"></i> Analytics</a>
+        <a href="#" class="nav-item"><i class="fas fa-file-alt"></i> Reports</a>
+        <a href="#" class="nav-item"><i class="fas fa-cogs"></i> Settings</a>
+        <a href="index.html" class="nav-item"><i class="fas fa-sign-out-alt"></i> Log Out</a>
+      </nav>
+      <div class="sidebar-footer">
+        <span>Pro Plan</span>
+      </div>
+    </aside>
+    <main class="dashboard-content">
+      <header class="dashboard-header">
+        <h1>Welcome, <span class="user-name">User</span>!</h1>
+        <div class="dashboard-actions">
+          <button class="btn btn-primary" id="new-widget-btn"><i class="fas fa-plus"></i> Add Widget</button>
+          <button class="btn btn-outline" id="export-btn"><i class="fas fa-download"></i> Export</button>
+        </div>
+      </header>
+      <section class="widgets-grid">
+        <!-- Example widgets -->
+        <div class="widget widget-chart">
+          <div class="widget-header">
+            <span><i class="fas fa-chart-line"></i> Performance Overview</span>
+            <button class="widget-settings"><i class="fas fa-cog"></i></button>
+          </div>
+          <div class="widget-body">
+            <canvas id="performanceChart" height="80"></canvas>
+          </div>
+        </div>
+        <div class="widget widget-metrics">
+          <div class="widget-header">
+            <span><i class="fas fa-bolt"></i> Key Metrics</span>
+          </div>
+          <div class="widget-body metrics">
+            <div class="metric"><span class="metric-label">Visitors</span><span class="metric-value">12.5K</span></div>
+            <div class="metric"><span class="metric-label">Revenue</span><span class="metric-value">$48.2K</span></div>
+            <div class="metric"><span class="metric-label">Conversion</span><span class="metric-value">64%</span></div>
+            <div class="metric"><span class="metric-label">Bounce Rate</span><span class="metric-value">38%</span></div>
+          </div>
+        </div>
+        <div class="widget widget-activity">
+          <div class="widget-header">
+            <span><i class="fas fa-history"></i> Recent Activity</span>
+          </div>
+          <div class="widget-body">
+            <ul class="activity-list">
+              <li class="activity-item"><i class="fas fa-user-plus"></i> New user registered <span class="activity-time">2m ago</span></li>
+              <li class="activity-item"><i class="fas fa-chart-line"></i> Monthly report generated <span class="activity-time">1h ago</span></li>
+              <li class="activity-item"><i class="fas fa-shopping-cart"></i> New order placed <span class="activity-time">3h ago</span></li>
+              <li class="activity-item"><i class="fas fa-robot"></i> AI anomaly detected <span class="activity-time">Today</span></li>
+            </ul>
+          </div>
+        </div>
+        <div class="widget widget-tasks">
+          <div class="widget-header">
+            <span><i class="fas fa-tasks"></i> Quick Tasks</span>
+          </div>
+          <div class="widget-body">
+            <ul class="task-list">
+              <li><input type="checkbox" id="task1"><label for="task1">Review monthly analytics</label></li>
+              <li><input type="checkbox" id="task2"><label for="task2">Export last week's report</label></li>
+              <li><input type="checkbox" id="task3"><label for="task3">Invite new team member</label></li>
+            </ul>
+          </div>
+        </div>
+        <div class="widget widget-announcement">
+          <div class="widget-header">
+            <span><i class="fas fa-bullhorn"></i> Announcement</span>
+          </div>
+          <div class="widget-body">
+            <p>🚀 New AI-powered insights are now live! Check your analytics for smart recommendations.</p>
+          </div>
+        </div>
+        <!-- Add more widgets here -->
+      </section>
+    </main>
+  </div>
+  <script src="dashboard.js"></script>
+</body>
+</html>
