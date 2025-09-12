@@ -8,88 +8,11 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="style.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    <!-- Stripe.js -->
-    <script src="https://js.stripe.com/v3/"></script>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" integrity="sha512-iecdLmaskl7CVkqkXNQ/ZH/XLlvWZOJyj7Yy7tcenmpD1ypASozpmT/E0iPtmFIB46ZmdtAc9eNBvH0H/ZpiBw==" crossorigin="anonymous" referrerpolicy="no-referrer" />
 </head>
 <body>
-    <!-- Authentication Modals -->
-    <div id="auth-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="auth-container">
-                <div class="auth-tabs">
-                    <button class="auth-tab active" data-tab="login">Login</button>
-                    <button class="auth-tab" data-tab="signup">Sign Up</button>
-                </div>
-                
-                <div class="auth-form active" id="login-form">
-                    <h3>Welcome Back</h3>
-                    <form id="login-form-element">
-                        <div class="form-group">
-                            <label for="login-email">Email</label>
-                            <input type="email" id="login-email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="login-password">Password</label>
-                            <input type="password" id="login-password" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Login</button>
-                    </form>
-                    <div class="auth-divider">
-                        <span>or continue with</span>
-                    </div>
-                    <div class="social-auth">
-                        <button class="btn btn-outline btn-social" data-provider="google">
-                            <i class="fab fa-google"></i> Google
-                        </button>
-                        <button class="btn btn-outline btn-social" data-provider="github">
-                            <i class="fab fa-github"></i> GitHub
-                        </button>
-                    </div>
-                </div>
-                
-                <div class="auth-form" id="signup-form">
-                    <h3>Create Account</h3>
-                    <form id="signup-form-element">
-                        <div class="form-group">
-                            <label for="signup-name">Full Name</label>
-                            <input type="text" id="signup-name" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-email">Email</label>
-                            <input type="email" id="signup-email" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-password">Password</label>
-                            <input type="password" id="signup-password" required>
-                        </div>
-                        <div class="form-group">
-                            <label for="signup-confirm">Confirm Password</label>
-                            <input type="password" id="signup-confirm" required>
-                        </div>
-                        <button type="submit" class="btn btn-primary btn-full">Create Account</button>
-                    </form>
-                </div>
-            </div>
-        </div>
-    </div>
 
-    <!-- Payment Success Modal -->
-    <div id="payment-success-modal" class="modal">
-        <div class="modal-content">
-            <span class="close-modal">&times;</span>
-            <div class="payment-status">
-                <div class="status-icon success">
-                    <i class="fas fa-check-circle"></i>
-                </div>
-                <h3>Payment Successful!</h3>
-                <p>Thank you for your purchase. Your subscription is now active.</p>
-                <a href="#" class="btn btn-primary" id="go-to-dashboard">Go to Dashboard</a>
-            </div>
-        </div>
-    </div>
 
     <header>
         <nav>
@@ -108,27 +31,7 @@
                 </div>
             </div>
             <div class="cta-buttons">
-                <a href="#signup" class="btn btn-primary" id="auth-button"><span class="text-gradient">Sign Up</span> <i class="fas fa-arrow-right"></i></a>
-            </div>
-            <div class="user-menu" id="user-menu">
-                <div class="user-avatar" id="user-avatar">
-                    <span id="user-initials">U</span>
-                </div>
-                <div class="user-dropdown" id="user-dropdown">
-                    <div class="user-dropdown-item">
-                        <i class="fas fa-user"></i>
-                        <span id="user-name">User Name</span>
-                    </div>
-                    <div class="user-dropdown-item">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </div>
-                    <div class="user-dropdown-divider"></div>
-                    <div class="user-dropdown-item" id="logout-button">
-                        <i class="fas fa-sign-out-alt"></i>
-                        <span>Logout</span>
-                    </div>
-                </div>
+                <a href="#signup" class="btn btn-primary"><span class="text-gradient">Sign Up</span> <i class="fas fa-arrow-right"></i></a>
             </div>
             <div class="menu-toggle">
                 <i class="fas fa-bars"></i>
@@ -139,49 +42,49 @@
     <main>
         <section class="hero">
             <!-- Star particles and blur effects -->
-            <div class="star-field">
-                <div class="blur-overlay"></div>
-                <div class="star star-1"></div>
-                <div class="star star-2"></div>
-                <div class="star star-3"></div>
-                <div class="star star-4"></div>
-                <div class="star star-5"></div>
-                <div class="star star-6"></div>
-                <div class="star star-7"></div>
-                <div class="star star-8"></div>
-                <div class="star star-9"></div>
-                <div class="star star-10"></div>
-                <div class="star star-11"></div>
-                <div class="star star-12"></div>
-                <div class="star star-13"></div>
-                <div class="star star-14"></div>
-                <div class="star star-15"></div>
-                <div class="star star-16"></div>
-                <div class="star star-17"></div>
-                <div class="star star-18"></div>
-                <div class="star star-19"></div>
-                <div class="star star-20"></div>
-                <div class="star star-21"></div>
-                <div class="star star-22"></div>
-                <div class="star star-23"></div>
-                <div class="star star-24"></div>
-                <div class="star star-25"></div>
-                <div class="star star-26"></div>
-                <div class="star star-27"></div>
-                <div class="star star-28"></div>
-                <div class="star star-29"></div>
-                <div class="star star-30"></div>
-                <div class="star star-31"></div>
-                <div class="star star-32"></div>
-                <div class="star star-33"></div>
-                <div class="star star-34"></div>
-                <div class="star star-35"></div>
-                <div class="star star-36"></div>
-                <div class="star star-37"></div>
-                <div class="star star-38"></div>
-                <div class="star star-39"></div>
-                <div class="star star-40"></div>
-            </div>
+    <div class="star-field">
+        <div class="blur-overlay"></div>
+        <div class="star star-1"></div>
+        <div class="star star-2"></div>
+        <div class="star star-3"></div>
+        <div class="star star-4"></div>
+        <div class="star star-5"></div>
+        <div class="star star-6"></div>
+        <div class="star star-7"></div>
+        <div class="star star-8"></div>
+        <div class="star star-9"></div>
+        <div class="star star-10"></div>
+        <div class="star star-11"></div>
+        <div class="star star-12"></div>
+        <div class="star star-13"></div>
+        <div class="star star-14"></div>
+        <div class="star star-15"></div>
+        <div class="star star-16"></div>
+        <div class="star star-17"></div>
+        <div class="star star-18"></div>
+        <div class="star star-19"></div>
+        <div class="star star-20"></div>
+        <div class="star star-21"></div>
+        <div class="star star-22"></div>
+        <div class="star star-23"></div>
+        <div class="star star-24"></div>
+        <div class="star star-25"></div>
+        <div class="star star-26"></div>
+        <div class="star star-27"></div>
+        <div class="star star-28"></div>
+        <div class="star star-29"></div>
+        <div class="star star-30"></div>
+        <div class="star star-31"></div>
+        <div class="star star-32"></div>
+        <div class="star star-33"></div>
+        <div class="star star-34"></div>
+        <div class="star star-35"></div>
+        <div class="star star-36"></div>
+        <div class="star star-37"></div>
+        <div class="star star-38"></div>
+        <div class="star star-39"></div>
+        <div class="star star-40"></div>
+    </div>
 
             <div class="hero-container">
                 <div class="hero-content">
@@ -210,6 +113,7 @@
                     </div>
                 </div>
             </div>
+
         </section>
 
         <section id="features" class="features">
@@ -306,6 +210,8 @@
                         </ul>
                         <a href="#" class="feature-link"><span class="text-gradient">Learn more</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
+                    
+
                 </div>
                 
                 <div class="features-banner">
@@ -332,78 +238,79 @@
                     <p>Discover the future of subscription options with our <span class="text-gradient">cutting-edge</span> plans</p>
                 </div>
 
+
                 <div class="pricing-cards">
                     <div class="pricing-card">
-                        <div class="pricing-icon">
-                            <i class="fas fa-rocket text-gradient"></i>
-                        </div>
-                        <div class="pricing-card-header">
-                            <h3><span class="text-gradient">Basic</span></h3>
-                            <div class="pricing-card-price">
-                                <span class="currency">$</span>
-                                <span class="amount">2</span>
-                                <span class="period">/mo</span>
+                            <div class="pricing-icon">
+                                <i class="fas fa-rocket text-gradient"></i>
                             </div>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li><i class="fas fa-check-circle text-gradient"></i> Up to <span class="text-gradient">250</span> users</li>
-                                <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">Basic</span> analytics</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-cta">
-                            <a href="#signup" class="btn btn-outline">Get Started</a>
-                        </div>
+                            <div class="pricing-card-header">
+                                <h3><span class="text-gradient">Basic</span></h3>
+                                <div class="pricing-card-price">
+                                    <span class="currency">$</span>
+                                    <span class="amount">2</span>
+                                    <span class="period">/mo</span>
+                                </div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> Up to <span class="text-gradient">250</span> users</li>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">Basic</span> analytics</li>
+                                </ul>
+                            </div>
+                            <div class="pricing-cta">
+                                <a href="#signup" class="btn btn-outline">Get Started</a>
+                            </div>
                     </div>
 
                     <div class="pricing-card featured">
                         <div class="pricing-badge"></div>
-                        <div class="pricing-icon">
-                            <i class="fas fa-crown text-gradient"></i>
-                        </div>
-                        <div class="pricing-card-header">
-                            <h3><span class="text-gradient">Pro</span></h3>
-                            <div class="pricing-card-price">
-                                <span class="currency">$</span>
-                                <span class="amount">6</span>
-                                <span class="period">/mo</span>
+                            <div class="pricing-icon">
+                                <i class="fas fa-crown text-gradient"></i>
                             </div>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li><i class="fas fa-check-circle text-gradient"></i> Up to <span class="text-gradient">2500</span> users</li>
-                                <li><i class="fas fa-check-circle text-gradient"></i> All <span class="text-gradient">basic</span> features</li>
-                                <li><i class="fas fa-check-circle text-gradient"></i> Advanced analytics</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-cta">
-                            <a href="#signup" class="btn btn-primary">Get Started</a>
-                        </div>
+                            <div class="pricing-card-header">
+                                <h3><span class="text-gradient">Pro</span></h3>
+                                <div class="pricing-card-price">
+                                    <span class="currency">$</span>
+                                    <span class="amount">6</span>
+                                    <span class="period">/mo</span>
+                                </div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> Up to <span class="text-gradient">2500</span> users</li>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> All <span class="text-gradient">basic</span> features</li>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> Advanced analytics</li>
+                                </ul>
+                            </div>
+                            <div class="pricing-cta">
+                                <a href="#signup" class="btn btn-primary">Get Started</a>
+                            </div>
                     </div>
 
                     <div class="pricing-card">
-                        <div class="pricing-icon">
-                            <i class="fas fa-building text-gradient"></i>
-                        </div>
-                        <div class="pricing-card-header">
-                            <h3><span class="text-gradient">Enterprise</span></h3>
-                            <div class="pricing-card-price">
-                                <span class="currency">$</span>
-                                <span class="amount">16</span>
-                                <span class="decimal">.99</span>
-                                <span class="period">/mo</span>
+                            <div class="pricing-icon">
+                                <i class="fas fa-building text-gradient"></i>
                             </div>
-                        </div>
-                        <div class="pricing-features">
-                            <ul>
-                                <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">Unlimited</span> users</li>
-                                <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">All features</span> included</li>
-                                <li><i class="fas fa-check-circle text-gradient"></i> Custom integrations</li>
-                            </ul>
-                        </div>
-                        <div class="pricing-cta">
-                            <a href="#contact" class="btn btn-outline">Contact Sales</a>
-                        </div>
+                            <div class="pricing-card-header">
+                                <h3><span class="text-gradient">Enterprise</span></h3>
+                                <div class="pricing-card-price">
+                                    <span class="currency">$</span>
+                                    <span class="amount">16</span>
+                                    <span class="decimal">.99</span>
+                                    <span class="period">/mo</span>
+                                </div>
+                            </div>
+                            <div class="pricing-features">
+                                <ul>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">Unlimited</span> users</li>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> <span class="text-gradient">All features</span> included</li>
+                                    <li><i class="fas fa-check-circle text-gradient"></i> Custom integrations</li>
+                                </ul>
+                            </div>
+                            <div class="pricing-cta">
+                                <a href="#contact" class="btn btn-outline">Contact Sales</a>
+                            </div>
                     </div>
                 </div>
 
@@ -418,6 +325,8 @@
         </section>
 
         <section id="testimonials" class="testimonials">
+
+            
             <div class="section-header">
                 <div class="section-tag">Testimonials</div>
                 <h2>What Our <span class="text-gradient">Clients</span> Say</h2>
@@ -489,6 +398,7 @@
         </section>
 
         <section id="contact" class="contact-section">
+            <!-- Orbs for visual effect, similar to features section -->
             <div class="orb orb-1"></div>
             <div class="orb orb-2"></div>
             <div class="orb orb-3"></div>
@@ -499,7 +409,9 @@
                 <p>Have questions? We're here to help you succeed</p>
             </div>
 
+            <!-- Contact cards with main card on top and smaller cards below -->
             <div class="contact-cards-container-vertical">
+                <!-- Main contact card -->
                 <div class="contact-card-main">
                     <div class="feature-card-badge">
                         <span class="text-gradient">CONTACT</span>
@@ -516,9 +428,12 @@
                         <li><i class="fas fa-check text-gradient"></i> Fast Response Time</li>
                         <li><i class="fas fa-check text-gradient"></i> Detailed Solutions</li>
                     </ul>
+
                 </div>
                 
+                <!-- Smaller cards container -->
                 <div class="contact-small-cards-row">
+                    <!-- Email card -->
                     <div class="contact-card-small">
                         <div class="feature-card-badge">
                             <span class="text-gradient">EMAIL</span>
@@ -532,6 +447,7 @@
                         <a href="mailto:hello@phantomdash.com" class="feature-link"><span class="text-gradient">hello@phantomdash.com</span> <i class="fas fa-chevron-right"></i></a>
                     </div>
                     
+                    <!-- Discord card -->
                     <div class="contact-card-small">
                         <div class="feature-card-badge">
                             <span class="text-gradient">DISCORD</span>
@@ -548,96 +464,11 @@
             </div>
         </section>
 
-        <!-- Dashboard Section (Hidden by default) -->
-        <div class="dashboard-container" id="dashboard-container">
-            <div class="dashboard-header">
-                <h1 class="dashboard-title">Dashboard</h1>
-                <div class="dashboard-actions">
-                    <button class="btn btn-outline">
-                        <i class="fas fa-download"></i> Export
-                    </button>
-                    <button class="btn btn-primary">
-                        <i class="fas fa-plus"></i> New Report
-                    </button>
-                </div>
-            </div>
-            
-            <div class="dashboard-grid">
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Performance Overview</h3>
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="dashboard-card-content">
-                        <canvas id="performance-chart" height="250"></canvas>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Key Metrics</h3>
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="dashboard-card-content">
-                        <div class="widget-stats">
-                            <div class="stat">
-                                <span class="value">12.5K</span>
-                                <span class="label">Visitors</span>
-                            </div>
-                            <div class="stat">
-                                <span class="value">$48.2K</span>
-                                <span class="label">Revenue</span>
-                            </div>
-                            <div class="stat">
-                                <span class="value">64%</span>
-                                <span class="label">Conversion</span>
-                            </div>
-                        </div>
-                    </div>
-                </div>
-                
-                <div class="dashboard-card">
-                    <div class="dashboard-card-header">
-                        <h3 class="dashboard-card-title">Recent Activity</h3>
-                        <i class="fas fa-info-circle"></i>
-                    </div>
-                    <div class="dashboard-card-content">
-                        <ul class="activity-list">
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-user-plus"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p>New user registered</p>
-                                    <span>2 minutes ago</span>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-chart-line"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p>Monthly report generated</p>
-                                    <span>1 hour ago</span>
-                                </div>
-                            </li>
-                            <li class="activity-item">
-                                <div class="activity-icon">
-                                    <i class="fas fa-shopping-cart"></i>
-                                </div>
-                                <div class="activity-content">
-                                    <p>New order placed</p>
-                                    <span>3 hours ago</span>
-                                </div>
-                            </li>
-                        </ul>
-                    </div>
-                </div>
-            </div>
-        </div>
     </main>
 
     <footer id="footer" class="footer-modern">
+
+        
         <div class="footer-main">
             <div class="footer-container">
                 <div class="footer-brand">
@@ -717,8 +548,6 @@
         </div>
     </footer>
 
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
     <script src="script.js"></script>
 </body>
 </html>
