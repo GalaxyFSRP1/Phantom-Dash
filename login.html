@@ -1,0 +1,183 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login - PhanomDash-NextGen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🚀</div>
+                PhanomDash
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#dashboard">Dashboard</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="login.html" class="cta-button">Login</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Login Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Welcome Back</h1>
+            <p>Sign in to your PhanomDash-NextGen account to access your dashboard and manage your servers.</p>
+        </div>
+    </section>
+
+    <!-- Login Section -->
+    <section class="features">
+        <div class="container">
+            <div style="max-width: 400px; margin: 0 auto;">
+
+                <!-- Login Form -->
+                <div class="feature-card" style="padding: 2rem;">
+                    <h3 style="margin-bottom: 1.5rem; text-align: center;">Sign In</h3>
+
+                    <form id="loginForm">
+                        <div style="margin-bottom: 1rem;">
+                            <label for="email" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Email Address</label>
+                            <input type="email" id="email" name="email" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 1rem;">
+                            <label for="password" style="display: block; margin-bottom: 0.5rem; font-weight: 500;">Password</label>
+                            <input type="password" id="password" name="password" required style="width: 100%; padding: 0.8rem; border: 1px solid #ddd; border-radius: 5px; font-size: 1rem;">
+                        </div>
+
+                        <div style="margin-bottom: 1rem; display: flex; justify-content: space-between; align-items: center;">
+                            <label style="display: flex; align-items: center; gap: 0.5rem; font-size: 0.9rem;">
+                                <input type="checkbox" id="remember" name="remember">
+                                Remember me
+                            </label>
+                            <a href="#" style="color: #667eea; text-decoration: none; font-size: 0.9rem;">Forgot password?</a>
+                        </div>
+
+                        <button type="submit" class="btn btn-primary" style="width: 100%; margin-bottom: 1rem;">Sign In</button>
+
+                        <div style="text-align: center;">
+                            <p style="margin-bottom: 1rem; color: #666;">Don't have an account?</p>
+                            <a href="register.html" class="btn btn-secondary" style="width: 100%;">Create Account</a>
+                        </div>
+                    </form>
+                </div>
+
+                <!-- Alternative Login Methods -->
+                <div class="feature-card" style="padding: 2rem; margin-top: 2rem;">
+                    <h4 style="margin-bottom: 1rem; text-align: center;">Or continue with</h4>
+
+                    <div style="display: flex; gap: 1rem; justify-content: center;">
+                        <button type="button" class="btn btn-outline" style="flex: 1;">
+                            <span style="margin-right: 0.5rem;">🔵</span>
+                            Google
+                        </button>
+                        <button type="button" class="btn btn-outline" style="flex: 1;">
+                            <span style="margin-right: 0.5rem;">🐙</span>
+                            GitHub
+                        </button>
+                    </div>
+                </div>
+
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <a href="index.html#features">Features</a>
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="#">API</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="about.html">About</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="#">Careers</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="#">Documentation</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Community</a>
+                    <a href="#">Status</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="#">Security</a>
+                    <a href="#">Compliance</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 PhanomDash-NextGen. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="api.js"></script>
+    <script src="script.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            const loginForm = document.getElementById('loginForm');
+
+            loginForm.addEventListener('submit', async function(e) {
+                e.preventDefault();
+
+                const email = document.getElementById('email').value;
+                const password = document.getElementById('password').value;
+
+                // Show loading state
+                const submitBtn = this.querySelector('button[type="submit"]');
+                const originalText = submitBtn.textContent;
+                submitBtn.textContent = 'Signing in...';
+                submitBtn.disabled = true;
+
+                try {
+                    const result = await api.login(email, password);
+
+                    if (result.success) {
+                        // Redirect to dashboard
+                        window.location.href = result.redirectUrl || '/dashboard';
+                    } else {
+                        alert('Login failed: ' + result.error);
+                        submitBtn.textContent = originalText;
+                        submitBtn.disabled = false;
+                    }
+                } catch (error) {
+                    console.error('Login error:', error);
+                    alert('Login failed. Please try again.');
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                }
+            });
+
+            // Check if user is already logged in
+            if (api.isAuthenticated()) {
+                window.location.href = '/dashboard';
+            }
+        });
+    </script>
+</body>
+</html>

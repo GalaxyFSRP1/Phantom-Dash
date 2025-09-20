@@ -3,456 +3,255 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Dashboard | Phantom Dash</title>
-    <link rel="icon" href="images/logo.png" type="image/png">
+    <title>Dashboard - PhanomDash-NextGen</title>
+    <link rel="stylesheet" href="styles.css">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
-    <link rel="stylesheet" href="dashboard-styles.css">
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
-    
-    <!-- Supabase -->
-    <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
-    
-    <!-- Chart.js for data visualization -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    
-    <!-- ApexCharts for advanced visualizations -->
-    <script src="https://cdn.jsdelivr.net/npm/apexcharts"></script>
 </head>
-<body class="dashboard-page">
-    <!-- Loading Screen -->
-    <div id="loading-screen" class="loading-screen">
-        <div class="loading-content">
-            <div class="loading-logo">
-                <img src="images/logo.png" alt="Phantom Dash Logo">
-                <span class="logo-text">Phantom <span class="text-gradient">Dash</span></span>
-            </div>
-            <div class="loading-progress">
-                <div class="progress-bar">
-                    <div class="progress-fill"></div>
-                </div>
-                <p>Loading your dashboard...</p>
-            </div>
-        </div>
-    </div>
-
-    <!-- Sidebar Navigation -->
-    <nav class="sidebar">
-        <div class="sidebar-header">
-            <div class="logo">
-                <img src="images/logo.png" alt="Phantom Dash Logo">
-                <span class="logo-text">Phantom <span class="text-gradient">Dash</span></span>
-            </div>
-            <button class="sidebar-toggle" id="sidebar-toggle">
-                <i class="fas fa-bars"></i>
-            </button>
-        </div>
-        
-        <div class="sidebar-content">
-            <div class="user-profile">
-                <div class="user-avatar">
-                    <img src="images/user-avatar.svg" alt="User Avatar" id="user-avatar">
-                    <span class="status-indicator"></span>
-                </div>
-                <div class="user-info">
-                    <h4 id="user-name">Loading...</h4>
-                    <p id="user-email">Loading...</p>
-                </div>
-            </div>
-            
-            <ul class="sidebar-nav">
-                <li class="nav-item active">
-                    <a href="#overview" class="nav-link">
-                        <i class="fas fa-chart-pie"></i>
-                        <span>Overview</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#analytics" class="nav-link">
-                        <i class="fas fa-chart-line"></i>
-                        <span>Analytics</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#reports" class="nav-link">
-                        <i class="fas fa-file-alt"></i>
-                        <span>Reports</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#users" class="nav-link">
-                        <i class="fas fa-users"></i>
-                        <span>Users</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#integrations" class="nav-link">
-                        <i class="fas fa-plug"></i>
-                        <span>Integrations</span>
-                    </a>
-                </li>
-                <li class="nav-item">
-                    <a href="#settings" class="nav-link">
-                        <i class="fas fa-cog"></i>
-                        <span>Settings</span>
-                    </a>
-                </li>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🚀</div>
+                PhanomDash
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#dashboard">Dashboard</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html" class="cta-button">Get Started</a></li>
             </ul>
-            
-            <div class="sidebar-footer">
-                <div class="upgrade-banner">
-                    <h4>Upgrade to Pro</h4>
-                    <p>Unlock advanced features and insights</p>
-                    <a href="#pricing" class="btn btn-primary btn-small">Upgrade Now</a>
-                </div>
-                
-                <a href="#" class="nav-link" id="logout-btn">
-                    <i class="fas fa-sign-out-alt"></i>
-                    <span>Logout</span>
-                </a>
-            </div>
-        </div>
-    </nav>
+        </nav>
+    </header>
 
-    <!-- Main Content -->
-    <main class="main-content">
-        <header class="dashboard-header">
-            <div class="header-left">
-                <h1>Dashboard Overview</h1>
-                <div class="breadcrumb">
-                    <a href="#">Home</a> / <span>Dashboard</span>
+    <!-- Dashboard Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Analytics Dashboard</h1>
+            <p>Real-time insights and comprehensive analytics at your fingertips.</p>
+        </div>
+    </section>
+
+    <!-- Dashboard Content Section -->
+    <section class="features">
+        <div class="container">
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 2rem; margin-bottom: 3rem;">
+
+                <!-- Metrics Cards -->
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Total Users</h3>
+                        <div style="color: #667eea; font-size: 1.5rem;">📊</div>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: #667eea; margin-bottom: 0.5rem;">12,847</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #28a745;">
+                        <span>↗</span>
+                        <span>12.5% from last month</span>
+                    </div>
                 </div>
+
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Revenue</h3>
+                        <div style="color: #28a745; font-size: 1.5rem;">💰</div>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: #28a745; margin-bottom: 0.5rem;">$45,231</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #28a745;">
+                        <span>↗</span>
+                        <span>8.2% from last month</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Conversion Rate</h3>
+                        <div style="color: #ffc107; font-size: 1.5rem;">📈</div>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: #ffc107; margin-bottom: 0.5rem;">3.24%</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #dc3545;">
+                        <span>↘</span>
+                        <span>0.4% from last month</span>
+                    </div>
+                </div>
+
+                <div class="feature-card">
+                    <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 1rem;">
+                        <h3>Active Sessions</h3>
+                        <div style="color: #17a2b8; font-size: 1.5rem;">⚡</div>
+                    </div>
+                    <div style="font-size: 2rem; font-weight: 700; color: #17a2b8; margin-bottom: 0.5rem;">1,429</div>
+                    <div style="display: flex; align-items: center; gap: 0.5rem; color: #28a745;">
+                        <span>↗</span>
+                        <span>18.7% from last month</span>
+                    </div>
+                </div>
+
             </div>
-            
-            <div class="header-right">
-                <div class="search-box">
-                    <i class="fas fa-search"></i>
-                    <input type="text" placeholder="Search...">
-                </div>
-                
-                <div class="header-actions">
-                    <button class="header-btn">
-                        <i class="fas fa-bell"></i>
-                        <span class="notification-badge">3</span>
-                    </button>
-                    <button class="header-btn">
-                        <i class="fas fa-envelope"></i>
-                        <span class="notification-badge">7</span>
-                    </button>
-                    <button class="header-btn" id="theme-toggle">
-                        <i class="fas fa-moon"></i>
-                    </button>
-                </div>
-                
-                <div class="user-menu">
-                    <div class="user-avatar">
-                        <img src="images/user-avatar.svg" alt="User Avatar" id="header-user-avatar">
-                    </div>
-                    <div class="user-dropdown">
-                        <div class="dropdown-item">
-                            <i class="fas fa-user"></i>
-                            <span>Profile</span>
-                        </div>
-                        <div class="dropdown-item">
-                            <i class="fas fa-cog"></i>
-                            <span>Settings</span>
-                        </div>
-                        <div class="dropdown-item">
-                            <i class="fas fa-question-circle"></i>
-                            <span>Help & Support</span>
-                        </div>
-                        <div class="dropdown-divider"></div>
-                        <div class="dropdown-item" id="dropdown-logout">
-                            <i class="fas fa-sign-out-alt"></i>
-                            <span>Logout</span>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </header>
-        
-        <!-- Dashboard Content -->
-        <div class="dashboard-content">
-            <!-- Stats Overview -->
-            <div class="stats-grid">
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-eye"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>12,856</h3>
-                        <p>Total Views</p>
-                    </div>
-                    <div class="stat-trend positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>12.5%</span>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-users"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>2,458</h3>
-                        <p>Active Users</p>
-                    </div>
-                    <div class="stat-trend positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>8.3%</span>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-shopping-cart"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>352</h3>
-                        <p>Conversions</p>
-                    </div>
-                    <div class="stat-trend negative">
-                        <i class="fas fa-arrow-down"></i>
-                        <span>3.2%</span>
-                    </div>
-                </div>
-                
-                <div class="stat-card">
-                    <div class="stat-icon">
-                        <i class="fas fa-dollar-sign"></i>
-                    </div>
-                    <div class="stat-info">
-                        <h3>$12,548</h3>
-                        <p>Revenue</p>
-                    </div>
-                    <div class="stat-trend positive">
-                        <i class="fas fa-arrow-up"></i>
-                        <span>18.7%</span>
-                    </div>
-                </div>
-            </div>
-            
+
             <!-- Charts Section -->
-            <div class="charts-grid">
-                <div class="chart-card large">
-                    <div class="chart-header">
-                        <h3>Revenue Overview</h3>
-                        <div class="chart-actions">
-                            <select class="chart-filter">
-                                <option>Last 7 Days</option>
-                                <option>Last 30 Days</option>
-                                <option>Last 90 Days</option>
-                            </select>
+            <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(400px, 1fr)); gap: 2rem;">
+
+                <!-- Revenue Chart -->
+                <div class="feature-card">
+                    <h3 style="margin-bottom: 1rem;">Revenue Overview</h3>
+                    <canvas id="revenueChart" width="400" height="200"></canvas>
+                </div>
+
+                <!-- User Growth Chart -->
+                <div class="feature-card">
+                    <h3 style="margin-bottom: 1rem;">User Growth</h3>
+                    <canvas id="userChart" width="400" height="200"></canvas>
+                </div>
+
+            </div>
+
+            <!-- Recent Activity -->
+            <div class="feature-card" style="margin-top: 2rem;">
+                <h3 style="margin-bottom: 1rem;">Recent Activity</h3>
+                <div style="space-y: 1rem;">
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <div style="font-weight: 500;">New user registration</div>
+                            <div style="font-size: 0.8rem; color: #666;">john.doe@example.com</div>
                         </div>
+                        <div style="font-size: 0.8rem; color: #666;">2 minutes ago</div>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="revenueChart"></canvas>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <div style="font-weight: 500;">Payment received</div>
+                            <div style="font-size: 0.8rem; color: #666;">$299.00 from Pro Plan</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #666;">15 minutes ago</div>
                     </div>
-                </div>
-                
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3>Traffic Sources</h3>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #eee;">
+                        <div>
+                            <div style="font-weight: 500;">Dashboard created</div>
+                            <div style="font-size: 0.8rem; color: #666;">Sales Analytics Dashboard</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #666;">1 hour ago</div>
                     </div>
-                    <div class="chart-container">
-                        <canvas id="trafficChart"></canvas>
-                    </div>
-                </div>
-                
-                <div class="chart-card">
-                    <div class="chart-header">
-                        <h3>User Growth</h3>
-                    </div>
-                    <div class="chart-container">
-                        <canvas id="usersChart"></canvas>
+
+                    <div style="display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0;">
+                        <div>
+                            <div style="font-weight: 500;">Data source connected</div>
+                            <div style="font-size: 0.8rem; color: #666;">Google Analytics API</div>
+                        </div>
+                        <div style="font-size: 0.8rem; color: #666;">3 hours ago</div>
                     </div>
                 </div>
             </div>
-            
-            <!-- Recent Activity & Top Pages -->
-            <div class="content-grid">
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3>Recent Activity</h3>
-                        <a href="#" class="view-all">View All</a>
-                    </div>
-                    <div class="activity-list">
-                        <div class="activity-item">
-                            <div class="activity-icon success">
-                                <i class="fas fa-check-circle"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p>New user registration</p>
-                                <span>2 minutes ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon primary">
-                                <i class="fas fa-chart-line"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p>Monthly report generated</p>
-                                <span>1 hour ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon warning">
-                                <i class="fas fa-exclamation-triangle"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p>High bounce rate detected</p>
-                                <span>3 hours ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon info">
-                                <i class="fas fa-info-circle"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p>System update completed</p>
-                                <span>5 hours ago</span>
-                            </div>
-                        </div>
-                        
-                        <div class="activity-item">
-                            <div class="activity-icon success">
-                                <i class="fas fa-dollar-sign"></i>
-                            </div>
-                            <div class="activity-content">
-                                <p>Payment processed successfully</p>
-                                <span>1 day ago</span>
-                            </div>
-                        </div>
-                    </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <a href="index.html#features">Features</a>
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="#">API</a>
                 </div>
-                
-                <div class="content-card">
-                    <div class="card-header">
-                        <h3>Top Pages</h3>
-                        <a href="#" class="view-all">View All</a>
-                    </div>
-                    <div class="pages-list">
-                        <div class="page-item">
-                            <div class="page-info">
-                                <h4>/dashboard/overview</h4>
-                                <p>2,458 visits</p>
-                            </div>
-                            <div class="page-stats">
-                                <span class="stat-badge">32%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="page-item">
-                            <div class="page-info">
-                                <h4>/pricing</h4>
-                                <p>1,876 visits</p>
-                            </div>
-                            <div class="page-stats">
-                                <span class="stat-badge">24%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="page-item">
-                            <div class="page-info">
-                                <h4>/features</h4>
-                                <p>1,542 visits</p>
-                            </div>
-                            <div class="page-stats">
-                                <span class="stat-badge">18%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="page-item">
-                            <div class="page-info">
-                                <h4>/blog/post-123</h4>
-                                <p>1,234 visits</p>
-                            </div>
-                            <div class="page-stats">
-                                <span class="stat-badge">12%</span>
-                            </div>
-                        </div>
-                        
-                        <div class="page-item">
-                            <div class="page-info">
-                                <h4>/contact</h4>
-                                <p>987 visits</p>
-                            </div>
-                            <div class="page-stats">
-                                <span class="stat-badge">8%</span>
-                            </div>
-                        </div>
-                    </div>
+
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="about.html">About</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="#">Careers</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="#">Documentation</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Community</a>
+                    <a href="#">Status</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="#">Security</a>
+                    <a href="#">Compliance</a>
                 </div>
             </div>
-            
-            <!-- Real-time Metrics -->
-            <div class="content-card">
-                <div class="card-header">
-                    <h3>Real-time Metrics</h3>
-                    <div class="live-indicator">
-                        <span class="pulse"></span>
-                        LIVE
-                    </div>
-                </div>
-                <div class="metrics-grid">
-                    <div class="metric">
-                        <h4>Current Visitors</h4>
-                        <div class="metric-value">247</div>
-                        <div class="metric-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>12 from 5 mins ago</span>
-                        </div>
-                    </div>
-                    
-                    <div class="metric">
-                        <h4>Conversion Rate</h4>
-                        <div class="metric-value">3.2%</div>
-                        <div class="metric-change negative">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>0.4% from 5 mins ago</span>
-                        </div>
-                    </div>
-                    
-                    <div class="metric">
-                        <h4>Avg. Session Duration</h4>
-                        <div class="metric-value">4m 32s</div>
-                        <div class="metric-change positive">
-                            <i class="fas fa-arrow-up"></i>
-                            <span>28s from 5 mins ago</span>
-                        </div>
-                    </div>
-                    
-                    <div class="metric">
-                        <h4>Bounce Rate</h4>
-                        <div class="metric-value">42%</div>
-                        <div class="metric-change positive">
-                            <i class="fas fa-arrow-down"></i>
-                            <span>3% from 5 mins ago</span>
-                        </div>
-                    </div>
-                </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 PhanomDash-NextGen. All rights reserved.</p>
             </div>
         </div>
-    </main>
+    </footer>
 
-    <!-- Notification Toast -->
-    <div id="notification-toast" class="toast">
-        <div class="toast-content">
-            <i class="fas fa-bell"></i>
-            <div class="toast-message">
-                <h4>Notification</h4>
-                <p>Welcome to your Phantom Dashboard!</p>
-            </div>
-        </div>
-        <button class="toast-close">
-            <i class="fas fa-times"></i>
-        </button>
-    </div>
+    <script src="script.js"></script>
+    <script>
+        // Revenue Chart
+        const revenueCtx = document.getElementById('revenueChart').getContext('2d');
+        new Chart(revenueCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'Revenue ($)',
+                    data: [12000, 19000, 15000, 25000, 22000, 30000],
+                    borderColor: '#667eea',
+                    backgroundColor: 'rgba(102, 126, 234, 0.1)',
+                    tension: 0.4
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
 
-    <script src="dashboard-script.js"></script>
+        // User Growth Chart
+        const userCtx = document.getElementById('userChart').getContext('2d');
+        new Chart(userCtx, {
+            type: 'bar',
+            data: {
+                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+                datasets: [{
+                    label: 'New Users',
+                    data: [1200, 1900, 1500, 2500, 2200, 3000],
+                    backgroundColor: '#28a745',
+                    borderRadius: 5
+                }]
+            },
+            options: {
+                responsive: true,
+                plugins: {
+                    legend: {
+                        display: false
+                    }
+                },
+                scales: {
+                    y: {
+                        beginAtZero: true
+                    }
+                }
+            }
+        });
+    </script>
 </body>
 </html>

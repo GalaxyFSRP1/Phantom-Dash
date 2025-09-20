@@ -1,0 +1,101 @@
+{
+  "name": "phanomdash-nextgen",
+  "version": "1.0.0",
+  "description": "A modern, responsive dashboard platform with Pterodactyl integration, user management, and payment processing",
+  "main": "server.js",
+  "scripts": {
+    "start": "node server.js",
+    "dev": "nodemon server.js",
+    "frontend": "npx http-server . -p 3000 -o",
+    "build": "echo 'Static site - no build process needed'",
+    "deploy": "vercel --prod",
+    "preview": "npx http-server . -p 4000",
+    "setup": "npm install && cp .env.example .env",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "db:migrate": "node scripts/migrate.js",
+    "db:seed": "node scripts/seed.js",
+    "backup": "node scripts/backup.js"
+  },
+  "keywords": [
+    "dashboard",
+    "pterodactyl",
+    "game-panel",
+    "hosting",
+    "analytics",
+    "responsive",
+    "html",
+    "css",
+    "javascript",
+    "nodejs",
+    "mongodb",
+    "stripe",
+    "api"
+  ],
+  "author": "PhanomDash Team",
+  "license": "MIT",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/phanomdash/nextgen.git"
+  },
+  "bugs": {
+    "url": "https://github.com/phanomdash/nextgen/issues"
+  },
+  "homepage": "https://phanomdash.com",
+  "dependencies": {
+    "express": "^4.18.2",
+    "cors": "^2.8.5",
+    "helmet": "^7.1.0",
+    "express-rate-limit": "^7.1.5",
+    "dotenv": "^16.3.1",
+    "axios": "^1.6.2",
+    "bcryptjs": "^2.4.3",
+    "jsonwebtoken": "^9.0.2",
+    "stripe": "^14.9.0",
+    "mongoose": "^8.0.3",
+    "nodemailer": "^6.9.7",
+    "redis": "^4.6.11",
+    "socket.io": "^4.7.4",
+    "multer": "^1.4.5-lts.1",
+    "express-session": "^1.17.3",
+    "csurf": "^1.11.0",
+    "express-validator": "^7.0.1",
+    "compression": "^1.7.4",
+    "morgan": "^1.10.0",
+    "winston": "^3.11.0",
+    "swagger-jsdoc": "^6.2.8",
+    "swagger-ui-express": "^5.0.0"
+  },
+  "devDependencies": {
+    "nodemon": "^3.0.2",
+    "jest": "^29.7.0",
+    "supertest": "^6.3.3",
+    "http-server": "^14.1.1",
+    "live-server": "^1.2.2",
+    "vercel": "^32.4.1",
+    "@types/jest": "^29.5.8",
+    "eslint": "^8.55.0",
+    "prettier": "^3.1.0"
+  },
+  "browserslist": [
+    "> 1%",
+    "last 2 versions",
+    "not dead"
+  ],
+  "engines": {
+    "node": ">=18.0.0",
+    "npm": ">=9.0.0"
+  },
+  "jest": {
+    "testEnvironment": "node",
+    "collectCoverageFrom": [
+      "server.js",
+      "src/**/*.js",
+      "!src/public/**"
+    ],
+    "testMatch": [
+      "**/__tests__/**/*.js",
+      "**/?(*.)+(spec|test).js"
+    ]
+  }
+}

@@ -1,384 +1,251 @@
-// Supabase configuration
-const SUPABASE_URL = 'https://etjoerlsuspwwxbwycpc.supabase.co/'; // Replace with your Supabase URL
-const SUPABASE_ANON_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImV0am9lcmxzdXNwd3d4Ynd5Y3BjIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NTcxMTE3NTksImV4cCI6MjA3MjY4Nzc1OX0.5BATyXU30jfZWi-k9ZaDQa2bWeOvjtp9_U_4e-xGF1c'; // Replace with your Supabase anon key
-const supabase = window.supabase.createClient(SUPABASE_URL, SUPABASE_ANON_KEY);
-
-// Stripe configuration
-const STRIPE_PUBLISHABLE_KEY = 'pk_live_51Rolv4GrRXIugSobD7Hy5zJgBtdicGS7zk72uWRlLTk6DmoWe9RPfX3rrcyj9lSozn6knOrIxTu9uiI5TzCW6DXl00SjllbTyq'; // Replace with your Stripe publishable key
-const stripe = window.Stripe(STRIPE_PUBLISHABLE_KEY);
+// PhanomDash-NextGen JavaScript
 
 document.addEventListener('DOMContentLoaded', function() {
 
     // Mobile menu toggle
     const menuToggle = document.querySelector('.menu-toggle');
-    const navLinks = document.querySelector('.nav-links');
+    const navMenu = document.querySelector('.nav-menu');
 
-    menuToggle.addEventListener('click', function() {
-        navLinks.classList.toggle('active');
-        this.classList.toggle('active');
-    });
+    if (menuToggle && navMenu) {
+        menuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+            menuToggle.classList.toggle('active');
+        });
+    }
 
-    // Authentication modal management
-    const authModal = document.getElementById('auth-modal');
-    const dashboardModal = document.getElementById('dashboard-modal');
-    const modalClose = document.getElementById('modal-close');
-    const authToggleLink = document.getElementById('auth-toggle-link');
-    const authToggleText = document.getElementById('auth-toggle-text');
-    const modalTitle = document.getElementById('modal-title');
-    const loginForm = document.getElementById('login-form');
-    const registerForm = document.getElementById('register-form');
-
-    // Dashboard elements
-    const profileBtn = document.getElementById('profile-btn');
-    const settingsBtn = document.getElementById('settings-btn');
-    const logoutBtn = document.getElementById('logout-btn');
-    const manageSubscriptionBtn = document.getElementById('manage-subscription-btn');
-
-    // Modal event listeners
-    modalClose.addEventListener('click', closeAuthModal);
-    authModal.addEventListener('click', function(e) {
-        if (e.target === authModal) closeAuthModal();
-    });
-    dashboardModal.addEventListener('click', function(e) {
-        if (e.target === dashboardModal) closeDashboardModal();
-    });
-
-    // Auth toggle
-    authToggleLink.addEventListener('click', toggleAuthMode);
-
-    // Form submissions
-    loginForm.addEventListener('submit', handleLogin);
-    registerForm.addEventListener('submit', handleRegister);
-
-    // Dashboard buttons
-    profileBtn.addEventListener('click', showProfile);
-    settingsBtn.addEventListener('click', showSettings);
-    logoutBtn.addEventListener('click', handleLogout);
-    manageSubscriptionBtn.addEventListener('click', manageSubscription);
-
-    // Check for existing session on page load
-    checkUserSession();
-
-    // Add click handlers to "Sign Up" buttons
-    const signUpButtons = document.querySelectorAll('a[href="#signup"], a[href="#signin"]');
-    signUpButtons.forEach(btn => {
-        btn.addEventListener('click', function(e) {
+    // Smooth scrolling for anchor links
+    const anchorLinks = document.querySelectorAll('a[href^="#"]');
+    anchorLinks.forEach(link => {
+        link.addEventListener('click', function(e) {
             e.preventDefault();
-            openAuthModal();
+            const targetId = this.getAttribute('href');
+            const targetSection = document.querySelector(targetId);
+
+            if (targetSection) {
+                targetSection.scrollIntoView({
+                    behavior: 'smooth',
+                    block: 'start'
+                });
+            }
         });
     });
-    
-    // Contact form submission
-    const contactForm = document.querySelector('.contact-form');
+
+    // Contact form handling
+    const contactForm = document.getElementById('contactForm');
     if (contactForm) {
         contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Get form values
+
+            // Get form data
+            const formData = new FormData(this);
             const name = document.getElementById('name').value;
             const email = document.getElementById('email').value;
             const subject = document.getElementById('subject').value;
             const message = document.getElementById('message').value;
-            
+
             // Simple validation
-            if (!name || !email || !message) {
-                alert('Please fill out all required fields');
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields');
                 return;
             }
-            
+
             // Simulate form submission
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalBtnText = submitBtn.innerHTML;
-            
-            submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+            const submitBtn = this.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
             submitBtn.disabled = true;
-            
-            // Simulate API call with timeout
+
+            // Simulate API call
             setTimeout(() => {
-                // Reset form
-                contactForm.reset();
-                
-                // Show success message
-                const formContainer = document.querySelector('.contact-form-container');
-                const successMessage = document.createElement('div');
-                successMessage.className = 'form-success-message';
-                successMessage.innerHTML = `
-                    <div class="success-icon"><i class="fas fa-check-circle"></i></div>
-                    <h3>Message Sent!</h3>
-                    <p>Thank you for reaching out. We'll get back to you shortly.</p>
-                    <button class="btn btn-outline send-another"><span class="text-gradient">Send Another</span></button>
-                `;
-                
-                formContainer.innerHTML = '';
-                formContainer.appendChild(successMessage);
-                
-                // Add event listener to "Send Another" button
-                const sendAnotherBtn = document.querySelector('.send-another');
-                if (sendAnotherBtn) {
-                    sendAnotherBtn.addEventListener('click', function() {
-                        formContainer.innerHTML = '';
-                        formContainer.appendChild(contactForm);
-                        submitBtn.innerHTML = originalBtnText;
-                        submitBtn.disabled = false;
-                    });
-                }
-            }, 2000);
+                alert('Thank you for your message! We\'ll get back to you soon.');
+                this.reset();
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
         });
     }
 
-    // Authentication Functions
-    async function handleLogin(e) {
-        e.preventDefault();
-        const email = document.getElementById('login-email').value;
-        const password = document.getElementById('login-password').value;
+    // Newsletter form handling
+    const newsletterForms = document.querySelectorAll('form[action*="newsletter"]');
+    newsletterForms.forEach(form => {
+        form.addEventListener('submit', function(e) {
+            e.preventDefault();
 
-        try {
-            const { data, error } = await supabase.auth.signInWithPassword({
-                email: email,
-                password: password
-            });
+            const emailInput = this.querySelector('input[type="email"]');
+            const submitBtn = this.querySelector('button[type="submit"]');
 
-            if (error) throw error;
+            if (!emailInput || !emailInput.value) {
+                alert('Please enter your email address');
+                return;
+            }
 
-            closeAuthModal();
-            openDashboardModal();
-            initializeDashboard();
-        } catch (error) {
-            alert('Login failed: ' + error.message);
-        }
-    }
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Subscribing...';
+            submitBtn.disabled = true;
 
-    async function handleRegister(e) {
-        e.preventDefault();
-        const email = document.getElementById('register-email').value;
-        const password = document.getElementById('register-password').value;
-        const confirmPassword = document.getElementById('register-confirm-password').value;
+            setTimeout(() => {
+                alert('Successfully subscribed to our newsletter!');
+                emailInput.value = '';
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 1000);
+        });
+    });
 
-        if (password !== confirmPassword) {
-            alert('Passwords do not match');
-            return;
-        }
+    // Add loading animation to buttons
+    const buttons = document.querySelectorAll('.btn');
+    buttons.forEach(button => {
+        button.addEventListener('click', function(e) {
+            // Don't add loading state to form submit buttons (handled separately)
+            if (this.type === 'submit') return;
 
-        try {
-            const { data, error } = await supabase.auth.signUp({
-                email: email,
-                password: password
-            });
+            // Add loading state for demo purposes
+            if (this.textContent.includes('Get Started') ||
+                this.textContent.includes('Start Free Trial') ||
+                this.textContent.includes('View Demo')) {
 
-            if (error) throw error;
+                const originalText = this.textContent;
+                this.textContent = 'Loading...';
+                this.disabled = true;
 
-            alert('Registration successful! Please check your email to verify your account.');
-            toggleAuthMode(); // Switch to login form
-        } catch (error) {
-            alert('Registration failed: ' + error.message);
-        }
-    }
-
-    async function handleLogout() {
-        try {
-            const { error } = await supabase.auth.signOut();
-            if (error) throw error;
-
-            closeDashboardModal();
-            updateUIForLoggedOutUser();
-        } catch (error) {
-            alert('Logout failed: ' + error.message);
-        }
-    }
-
-    async function checkUserSession() {
-        const { data: { session } } = await supabase.auth.getSession();
-
-        if (session) {
-            openDashboardModal();
-            initializeDashboard();
-        } else {
-            updateUIForLoggedOutUser();
-        }
-    }
-
-    // Modal Management Functions
-    function openAuthModal() {
-        authModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeAuthModal() {
-        authModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-        loginForm.reset();
-        registerForm.reset();
-    }
-
-    function openDashboardModal() {
-        dashboardModal.classList.remove('hidden');
-        document.body.style.overflow = 'hidden';
-    }
-
-    function closeDashboardModal() {
-        dashboardModal.classList.add('hidden');
-        document.body.style.overflow = 'auto';
-    }
-
-    function toggleAuthMode() {
-        const isLoginVisible = !loginForm.classList.contains('hidden');
-
-        if (isLoginVisible) {
-            // Switch to register
-            loginForm.classList.add('hidden');
-            registerForm.classList.remove('hidden');
-            modalTitle.textContent = 'Create Account';
-            authToggleText.innerHTML = 'Already have an account? <a href="#" id="auth-toggle-link">Sign in</a>';
-        } else {
-            // Switch to login
-            registerForm.classList.add('hidden');
-            loginForm.classList.remove('hidden');
-            modalTitle.textContent = 'Sign In';
-            authToggleText.innerHTML = 'Don\'t have an account? <a href="#" id="auth-toggle-link">Sign up</a>';
-        }
-
-        // Re-attach event listener to the new link
-        const newToggleLink = document.getElementById('auth-toggle-link');
-        newToggleLink.addEventListener('click', toggleAuthMode);
-    }
-
-    // Dashboard Functions
-    function initializeDashboard() {
-        initializeCharts();
-        loadUserData();
-    }
-
-    function initializeCharts() {
-        // Revenue Chart
-        const revenueCtx = document.getElementById('revenue-chart').getContext('2d');
-        new Chart(revenueCtx, {
-            type: 'line',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'Revenue ($)',
-                    data: [12000, 19000, 15000, 25000, 22000, 30000],
-                    borderColor: '#6366f1',
-                    backgroundColor: 'rgba(99, 102, 241, 0.1)',
-                    tension: 0.4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+                setTimeout(() => {
+                    this.textContent = originalText;
+                    this.disabled = false;
+                    alert('This is a demo! In a real application, this would redirect to the appropriate page.');
+                }, 1500);
             }
         });
+    });
 
-        // Users Chart
-        const usersCtx = document.getElementById('users-chart').getContext('2d');
-        new Chart(usersCtx, {
-            type: 'bar',
-            data: {
-                labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
-                datasets: [{
-                    label: 'New Users',
-                    data: [65, 89, 80, 81, 96, 105],
-                    backgroundColor: '#10b981',
-                    borderRadius: 4
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        display: false
-                    }
-                },
-                scales: {
-                    y: {
-                        beginAtZero: true
-                    }
-                }
+    // Intersection Observer for animations
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
             }
         });
+    }, observerOptions);
 
-        // Performance Chart
-        const performanceCtx = document.getElementById('performance-chart').getContext('2d');
-        new Chart(performanceCtx, {
-            type: 'doughnut',
-            data: {
-                labels: ['Page Views', 'Conversions', 'Bounce Rate'],
-                datasets: [{
-                    data: [65, 25, 10],
-                    backgroundColor: [
-                        '#6366f1',
-                        '#10b981',
-                        '#f59e0b'
-                    ]
-                }]
-            },
-            options: {
-                responsive: true,
-                plugins: {
-                    legend: {
-                        position: 'bottom'
-                    }
-                }
+    // Observe feature cards and pricing cards
+    const animatedElements = document.querySelectorAll('.feature-card, .pricing-card');
+    animatedElements.forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(30px)';
+        el.style.transition = 'opacity 0.6s ease, transform 0.6s ease';
+        observer.observe(el);
+    });
+
+    // Add hover effects to cards
+    const cards = document.querySelectorAll('.feature-card, .pricing-card');
+    cards.forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-5px) scale(1.02)';
+        });
+
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0) scale(1)';
+        });
+    });
+
+    // Dynamic header background on scroll
+    const header = document.querySelector('.header');
+    if (header) {
+        window.addEventListener('scroll', () => {
+            if (window.scrollY > 100) {
+                header.style.background = 'rgba(102, 126, 234, 0.95)';
+                header.style.backdropFilter = 'blur(10px)';
+            } else {
+                header.style.background = 'linear-gradient(135deg, #667eea 0%, #764ba2 100%)';
+                header.style.backdropFilter = 'none';
             }
         });
     }
 
-    async function loadUserData() {
-        try {
-            const { data: { user } } = await supabase.auth.getUser();
+    // Add click tracking for analytics (demo)
+    const trackableElements = document.querySelectorAll('.btn, .nav-menu a');
+    trackableElements.forEach(element => {
+        element.addEventListener('click', function() {
+            const elementText = this.textContent.trim();
+            const elementType = this.classList.contains('btn') ? 'button' : 'navigation';
 
-            if (user) {
-                // Load user profile data
-                const { data: profile, error } = await supabase
-                    .from('profiles')
-                    .select('*')
-                    .eq('id', user.id)
-                    .single();
+            console.log(`Analytics: ${elementType} clicked - "${elementText}"`);
 
-                if (profile) {
-                    document.getElementById('current-plan-name').textContent = profile.subscription_plan || 'Free';
-                    // Update other user data as needed
-                }
-            }
-        } catch (error) {
-            console.error('Error loading user data:', error);
+            // In a real application, this would send data to analytics service
+        });
+    });
+
+    // Add keyboard navigation support
+    document.addEventListener('keydown', function(e) {
+        // Escape key to close mobile menu
+        if (e.key === 'Escape' && navMenu && navMenu.classList.contains('active')) {
+            navMenu.classList.remove('active');
+            menuToggle.classList.remove('active');
         }
-    }
 
-    function showProfile() {
-        alert('Profile management coming soon!');
-    }
-
-    function showSettings() {
-        alert('Settings panel coming soon!');
-    }
-
-    function manageSubscription() {
-        alert('Subscription management coming soon!');
-    }
-
-    function updateUIForLoggedOutUser() {
-        // Update navigation or UI elements for logged out state
-        // This could include changing "Sign Up" buttons to "Dashboard" if logged in
-    }
-
-    // Listen for auth state changes
-    supabase.auth.onAuthStateChange((event, session) => {
-        if (event === 'SIGNED_IN') {
-            openDashboardModal();
-            initializeDashboard();
-        } else if (event === 'SIGNED_OUT') {
-            closeDashboardModal();
-            updateUIForLoggedOutUser();
+        // Tab navigation enhancement
+        if (e.key === 'Tab') {
+            document.body.classList.add('keyboard-navigation');
         }
     });
+
+    // Remove keyboard navigation class on mouse use
+    document.addEventListener('mousedown', function() {
+        document.body.classList.remove('keyboard-navigation');
+    });
+
+    // Add focus indicators for accessibility
+    const focusableElements = document.querySelectorAll('a, button, input, textarea, select');
+    focusableElements.forEach(element => {
+        element.addEventListener('focus', function() {
+            this.style.outline = '2px solid #667eea';
+            this.style.outlineOffset = '2px';
+        });
+
+        element.addEventListener('blur', function() {
+            this.style.outline = '';
+            this.style.outlineOffset = '';
+        });
+    });
+
+    // Performance monitoring (demo)
+    window.addEventListener('load', function() {
+        const loadTime = performance.now();
+        console.log(`Page loaded in ${Math.round(loadTime)}ms`);
+
+        // Simulate performance metrics
+        if ('performance' in window && 'getEntriesByType' in performance) {
+            const navigation = performance.getEntriesByType('navigation')[0];
+            if (navigation) {
+                console.log(`Navigation type: ${navigation.type}`);
+                console.log(`Page load time: ${Math.round(navigation.loadEventEnd - navigation.loadEventStart)}ms`);
+            }
+        }
+    });
+
+    // Error handling
+    window.addEventListener('error', function(e) {
+        console.error('JavaScript error:', e.error);
+        // In production, this would send error reports to monitoring service
+    });
+
+    // Add resize handler for responsive adjustments
+    let resizeTimeout;
+    window.addEventListener('resize', function() {
+        clearTimeout(resizeTimeout);
+        resizeTimeout = setTimeout(() => {
+            // Handle responsive menu state
+            if (window.innerWidth > 768 && navMenu && navMenu.classList.contains('active')) {
+                navMenu.classList.remove('active');
+                menuToggle.classList.remove('active');
+            }
+        }, 250);
+    });
+
+    console.log('PhanomDash-NextGen initialized successfully!');
 });

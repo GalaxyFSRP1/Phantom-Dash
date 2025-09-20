@@ -1,0 +1,245 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Pricing - PhanomDash-NextGen</title>
+    <link rel="stylesheet" href="styles.css">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <!-- Header -->
+    <header class="header">
+        <nav class="nav-container">
+            <a href="index.html" class="logo">
+                <div class="logo-icon">🚀</div>
+                PhanomDash
+            </a>
+            <ul class="nav-menu">
+                <li><a href="index.html#features">Features</a></li>
+                <li><a href="index.html#dashboard">Dashboard</a></li>
+                <li><a href="index.html#pricing">Pricing</a></li>
+                <li><a href="about.html">About</a></li>
+                <li><a href="contact.html">Contact</a></li>
+                <li><a href="index.html" class="cta-button">Get Started</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Pricing Hero Section -->
+    <section class="hero">
+        <div class="hero-content">
+            <h1>Simple, Transparent Pricing</h1>
+            <p>Choose the perfect plan for your business. All plans include our core features with no hidden fees.</p>
+        </div>
+    </section>
+
+    <!-- Pricing Toggle -->
+    <section style="padding: 2rem 0; background: #f8f9fa; text-align: center;">
+        <div class="container">
+            <div style="display: inline-flex; align-items: center; gap: 1rem; background: white; padding: 0.5rem; border-radius: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.1);">
+                <button id="monthlyBtn" class="btn" style="background: #667eea; color: white; border: none; padding: 0.5rem 1rem; border-radius: 20px;">Monthly</button>
+                <button id="yearlyBtn" class="btn" style="background: transparent; color: #666; border: none; padding: 0.5rem 1rem; border-radius: 20px;">Yearly</button>
+                <div style="background: #28a745; color: white; padding: 0.2rem 0.5rem; border-radius: 10px; font-size: 0.8rem; font-weight: 600;">Save 20%</div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Pricing Section -->
+    <section class="pricing">
+        <div class="container">
+            <div class="pricing-grid">
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Starter</h3>
+                        <div class="pricing-price" id="starterPrice">$0</div>
+                        <div class="pricing-period">Forever Free</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ 5 Dashboards</li>
+                        <li>✓ 100 Data Sources</li>
+                        <li>✓ Basic Charts & Visualizations</li>
+                        <li>✓ Email Support</li>
+                        <li>✓ 1GB Storage</li>
+                        <li>✓ Mobile Access</li>
+                        <li>✗ Advanced Analytics</li>
+                        <li>✗ Custom Integrations</li>
+                        <li>✗ Priority Support</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">Get Started</a>
+                </div>
+
+                <div class="pricing-card featured">
+                    <div class="badge">Most Popular</div>
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Professional</h3>
+                        <div class="pricing-price" id="proPrice">$29</div>
+                        <div class="pricing-period">per month</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Unlimited Dashboards</li>
+                        <li>✓ Unlimited Data Sources</li>
+                        <li>✓ Advanced Charts & Visualizations</li>
+                        <li>✓ Priority Support</li>
+                        <li>✓ 10GB Storage</li>
+                        <li>✓ Mobile Access</li>
+                        <li>✓ AI-Powered Insights</li>
+                        <li>✓ Custom Integrations</li>
+                        <li>✓ Team Collaboration</li>
+                    </ul>
+                    <a href="#" class="btn btn-primary">Start Free Trial</a>
+                </div>
+
+                <div class="pricing-card">
+                    <div class="pricing-header">
+                        <h3 class="pricing-name">Enterprise</h3>
+                        <div class="pricing-price" id="enterprisePrice">$99</div>
+                        <div class="pricing-period">per month</div>
+                    </div>
+                    <ul class="pricing-features">
+                        <li>✓ Everything in Professional</li>
+                        <li>✓ SSO Integration</li>
+                        <li>✓ Advanced Security Features</li>
+                        <li>✓ Dedicated Support Manager</li>
+                        <li>✓ Unlimited Storage</li>
+                        <li>✓ Custom Development</li>
+                        <li>✓ On-Premise Deployment</li>
+                        <li>✓ SLA Guarantee</li>
+                        <li>✓ Custom Contracts</li>
+                    </ul>
+                    <a href="#" class="btn btn-secondary">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- FAQ Section -->
+    <section style="padding: 6rem 0; background: #f8f9fa;">
+        <div class="container">
+            <h2 class="section-title">Frequently Asked Questions</h2>
+            <p class="section-subtitle">Everything you need to know about our pricing</p>
+
+            <div style="max-width: 800px; margin: 0 auto;">
+                <div class="feature-card" style="text-align: left; margin-bottom: 1rem;">
+                    <h4 style="color: #667eea; margin-bottom: 0.5rem;">Can I change my plan at any time?</h4>
+                    <p>Yes, you can upgrade or downgrade your plan at any time. Changes will be reflected in your next billing cycle.</p>
+                </div>
+
+                <div class="feature-card" style="text-align: left; margin-bottom: 1rem;">
+                    <h4 style="color: #667eea; margin-bottom: 0.5rem;">What happens to my data if I cancel?</h4>
+                    <p>Your data will be safely stored for 30 days after cancellation. You can export your data during this period.</p>
+                </div>
+
+                <div class="feature-card" style="text-align: left; margin-bottom: 1rem;">
+                    <h4 style="color: #667eea; margin-bottom: 0.5rem;">Do you offer discounts for annual billing?</h4>
+                    <p>Yes! Save 20% when you choose annual billing. The discount is automatically applied at checkout.</p>
+                </div>
+
+                <div class="feature-card" style="text-align: left;">
+                    <h4 style="color: #667eea; margin-bottom: 0.5rem;">What payment methods do you accept?</h4>
+                    <p>We accept all major credit cards, PayPal, and bank transfers for annual subscriptions.</p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- CTA Section -->
+    <section style="padding: 6rem 0; background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+        <div class="container">
+            <div style="text-align: center; max-width: 600px; margin: 0 auto;">
+                <h2 style="margin-bottom: 1rem;">Ready to Get Started?</h2>
+                <p style="margin-bottom: 2rem; opacity: 0.9;">Join thousands of businesses already using PhanomDash-NextGen to transform their data into insights.</p>
+                <div style="display: flex; gap: 1rem; justify-content: center; flex-wrap: wrap;">
+                    <a href="#" class="btn btn-primary" style="background: #ff6b6b;">Start Free Trial</a>
+                    <a href="contact.html" class="btn btn-secondary" style="border-color: rgba(255,255,255,0.3);">Contact Sales</a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="footer">
+        <div class="container">
+            <div class="footer-content">
+                <div class="footer-section">
+                    <h3>Product</h3>
+                    <a href="index.html#features">Features</a>
+                    <a href="index.html#pricing">Pricing</a>
+                    <a href="dashboard.html">Dashboard</a>
+                    <a href="#">API</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Company</h3>
+                    <a href="about.html">About</a>
+                    <a href="blog.html">Blog</a>
+                    <a href="#">Careers</a>
+                    <a href="contact.html">Contact</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Resources</h3>
+                    <a href="#">Documentation</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Community</a>
+                    <a href="#">Status</a>
+                </div>
+
+                <div class="footer-section">
+                    <h3>Legal</h3>
+                    <a href="privacy.html">Privacy Policy</a>
+                    <a href="terms.html">Terms of Service</a>
+                    <a href="#">Security</a>
+                    <a href="#">Compliance</a>
+                </div>
+            </div>
+
+            <div class="footer-bottom">
+                <p>&copy; 2024 PhanomDash-NextGen. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <script src="script.js"></script>
+    <script>
+        // Pricing toggle functionality
+        const monthlyBtn = document.getElementById('monthlyBtn');
+        const yearlyBtn = document.getElementById('yearlyBtn');
+        const starterPrice = document.getElementById('starterPrice');
+        const proPrice = document.getElementById('proPrice');
+        const enterprisePrice = document.getElementById('enterprisePrice');
+
+        let isYearly = false;
+
+        monthlyBtn.addEventListener('click', () => {
+            isYearly = false;
+            monthlyBtn.style.background = '#667eea';
+            monthlyBtn.style.color = 'white';
+            yearlyBtn.style.background = 'transparent';
+            yearlyBtn.style.color = '#666';
+            updatePrices();
+        });
+
+        yearlyBtn.addEventListener('click', () => {
+            isYearly = true;
+            yearlyBtn.style.background = '#667eea';
+            yearlyBtn.style.color = 'white';
+            monthlyBtn.style.background = 'transparent';
+            monthlyBtn.style.color = '#666';
+            updatePrices();
+        });
+
+        function updatePrices() {
+            if (isYearly) {
+                proPrice.textContent = '$23'; // 20% discount
+                enterprisePrice.textContent = '$79'; // 20% discount
+            } else {
+                proPrice.textContent = '$29';
+                enterprisePrice.textContent = '$99';
+            }
+        }
+    </script>
+</body>
+</html>
